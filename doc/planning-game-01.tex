@@ -19,29 +19,41 @@
 
 \newpage
 
+\renewcommand{\arraystretch}{1.5}
+
+\newcommand{\story}[5]{
+\begin{tabular*}{15cm}{@{\extracolsep{\fill}}| p{12cm} | c |}
+\hline
+\large{\textbf{#2}} & \large{Nr: \textbf{#1}} \\
+\hline
+\multicolumn{2}{| p{14cm} |}{#5} \\
+\hline
+Priorytet: \textbf{#3} & Czas: \textbf{#4h} \\
+\hline
+\end{tabular*}
+\vspace{1cm}
+}
 
 \begin{document}
 
 \section{Historie}
+Historie użytkownika prezentowane w odpowiednim formacie.
+\vspace{1cm}
 
-\subsection{Story 1}
-\textbf{Tytul:} Ekran powitalny \\
-\textbf{Opis:} Nowa gra;High Scores;Exit \\
-\textbf{Priorytet:} M \\
-\textbf{Koszt:} 1h \\
+\story{1}{Ekran powitalny}{Must}{1}{Nowa gra; High scores; Exit}
 
-\subsection{Story 2}
-\textbf{Tytul:} Wybor graczy \\
-\textbf{Opis:} 3-5 graczy; Mozliwosc wpisania nazw \\
-\textbf{Priorytet:} M \\
-\textbf{Koszt:} 1h \\
+\story{2}{Wybór graczy}{Must}{1}{3-5 graczy. Możliwość wpisania nazw.}
 
-\subsection{Story 3}
-\textbf{Tytul:} Ekran stanu gracza \\
-\textbf{Opis:} W dowolnej chwili moge wlaczyc i podpatrzyc stan kazdego gracza
-(poza PZ innych graczy). Na stan skladaja sie: Budynki;Uprawy;PZ;Dublony;Surowce \\
-\textbf{Priorytet:} M \\
-\textbf{Koszt:} 3h \\
+\story{3}{Ekran stanu gracza}{Must}{3}{W dowolnej chwili mogę włączyć i
+podpatrzyć stan każdego gracza (poza PZ innych graczy). Na stan składają się:
+\begin{itemize}
+  \item budynki
+  \item uprawy
+  \item Punkty Zwycięstwa
+  \item dublony
+  \item surowce
+\end{itemize}
+}
 
 \subsection{Story 4}
 \textbf{Tytul:} Ekran stanu gry \\
@@ -90,7 +102,7 @@ miejsc dla kolonistow\\
 budynki (tyle towaru ile kolonistow w przetworniach, gdy jest tyle plantacji)\\
 \textbf{Priorytet:} C \\
 \textbf{Koszt:} 1h \\
-  
+
 \subsection{Story 5}
 \textbf{Tytul:} Faza Gry \\
 \textbf{Opis:} Wybieram jedna z dostepnych rol i kazdy gracz (poczawszy ode
