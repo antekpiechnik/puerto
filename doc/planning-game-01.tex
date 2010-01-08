@@ -24,6 +24,33 @@
 
 \section{Historie}
 
+\subsection{Story 1}
+\textbf{Tytul:} Ekran powitalny \\
+\textbf{Opis:} Nowa gra;High Scores;Exit \\
+\textbf{Priorytet:} M \\
+\textbf{Koszt:} 1h \\
+
+\subsection{Story 2}
+\textbf{Tytul:} Wybor graczy \\
+\textbf{Opis:} 3-5 graczy; Mozliwosc wpisania nazw \\
+\textbf{Priorytet:} M \\
+\textbf{Koszt:} 1h \\
+
+\subsection{Story 3}
+\textbf{Tytul:} Ekran stanu gracza \\
+\textbf{Opis:} W dowolnej chwili moge wlaczyc i podpatrzyc stan kazdego gracza
+(poza PZ innych graczy). Na stan skladaja sie: Budynki;Uprawy;PZ;Dublony;Surowce \\
+\textbf{Priorytet:} M \\
+\textbf{Koszt:} 3h \\
+
+\subsection{Story 4}
+\textbf{Tytul:} Ekran stanu gry \\
+\textbf{Opis:} Dostepne budynki;Kto jest gubernatorem;Jaka jest wybrana
+faza;Status Targowiska;Ilosc dostepnych PZ;Ilosc dostepnych typow
+surowcow;Status statkow \\
+\textbf{Priorytet:} M \\
+\textbf{Koszt:} 3h \\
+
 \subsection{Story 20}
 \textbf{Tytul:} Rozpoczecie gry \\
 \textbf{Opis:} wszystkim graczom przydzielana jest ustalona ilosc dublonow, odpowiedni
@@ -31,6 +58,22 @@ znacznik plantacji; ustalana jest ilosc statkow oraz ilosc dostepnych
 kolonistow. \\
 \textbf{Priorytet:} M \\
 \textbf{Koszt:} 1h \\
+
+\subsection{Story 7}
+\textbf{Tytul:} Zakonczenie gry \\
+\textbf{Opis:} Gra konczy sie gdy: 1. Dowolny gracz zajal wszystkie miejsca w
+miescie; 2. Po fazie burmistrza nie mozna dolozyc pracownikow do budynkow lub
+upraw. 3. Po fazie kapitana skonczyly sie PZ. Gra konczy sie do konca danej tury
+i potem jest konczona. \\
+\textbf{Priorytet:} C \\
+\textbf{Koszt:} 1h \\
+
+\subsection{Story 16}
+\textbf{Tytul:} Rola Kolonistow  \\
+\textbf{Opis:} Budynek lub plantacja jest aktywna tylko gdy jest zamieszkiwana
+  przez kolonistow \\
+\textbf{Priorytet:} C \\
+\textbf{Koszt:} 2h \\
 
 \subsection{Story 18 }
 \textbf{Tytul:} Budowa budynkow \\
@@ -47,7 +90,84 @@ miejsc dla kolonistow\\
 budynki (tyle towaru ile kolonistow w przetworniach, gdy jest tyle plantacji)\\
 \textbf{Priorytet:} C \\
 \textbf{Koszt:} 1h \\
+  
+\subsection{Story 5}
+\textbf{Tytul:} Faza Gry \\
+\textbf{Opis:} Wybieram jedna z dostepnych rol i kazdy gracz (poczawszy ode
+mnie) wykonuje zwiazana czynnosc;Dla wybierajacego dostepna jest
+gratyfikacja zwiazana z dana rola \\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 2h \\
 
+\subsection{Story 6}
+\textbf{Tytul:} Tura Gry \\
+\textbf{Opis:} Tyle faz ile graczy;Fazy wybieramy w ustalonej kolejnosci
+poczawszy od gubernatora;Po skonczeniu gubernatorem zostaje nastepny gracz, a na
+kazda niewykorzystana role kladzie sie po Dublonie z Banku;Na koniec sprawdzanie
+warunkow zakonczenia gry\\
+\textbf{Priorytet: S}  \\
+\textbf{Koszt:} 1h \\
+
+\subsection{Story 9}
+\textbf{Tytul:} Rola - Poszukiwacz \\
+\textbf{Opis:} Kto wybral dostaje 1 Dublon z banku. \\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 0h \\
+
+\subsection{Story 10}
+\textbf{Tytul:} Rola - Budowniczy \\
+\textbf{Opis:} Mozna wybrc budynek (z puli dostepnych) i go zbudowac;Wybierajacy
+buduje 1 Dublon taniej\\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 2h \\
+
+\subsection{Story 11}
+\textbf{Tytul:} Rola - Burmistrz \\
+\textbf{Opis:} Poczawszy od burmistrza rozdaje sie po jednym koloniscie kazdemu
+graczowi az sie nie skoncza; Gracze moga przemieszczac kolonistow; Liczy sie
+ilosc wolnych miejsc w budynkach u wszystkich graczy i tyle kolonistow daje sie
+na statek, ale min. ilosc graczy\\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 4h \\
+
+\subsection{Story 12 }
+\textbf{Tytul:} Rola - Nadzorca \\
+\textbf{Opis:} Poczawszy od nadzorcy gracze produkuja towar;W kazdej kolejce
+tylko jeden typ produktu. Kolejki az sie nie skoczy mozliwosc tworzenia;Nazdorca
+dostaje jeden znacznik typu ktory wyprodukowal wiecej\\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 2h \\
+
+\subsection{Story 13}
+\textbf{Tytul:} Rola - Kupiec \\
+\textbf{Opis:} Mozna sprzedawac towary na targowiskach;Kupiec dostaje 1 Dublon
+wiecej za kazdy sprzedany towar; Sa 4 miejsca, tylko jeden znacznik danego typu
+na targowisku;Sprzedaz po 1 towarze, trwa dopoki mozna i gracze chca;Jesli
+zapelnily sie miejsca to targowisko sie czysci \\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 2h \\
+
+\subsection{Story 14}
+\textbf{Tytul:} Rola - Plantator \\
+\textbf{Opis:} Wybor plantacji sposrod dostepnych (zawsze 1 wiecej niz ilosc
+graczy, losuje sie sposrod puli); zaczyna sie od plantatora; jego
+przywilejem jest kamieniolom zamiast plantacji \\
+\textbf{Priorytet:} S \\
+\textbf{Koszt:} 2h \\
+
+\subsection{Story 15 }
+\textbf{Tytul:} Rola - Kapitan \\
+\textbf{Opis:} Zaladunek - ladowanie po jednym typie towaru na statek;Za kazdy
+znacznik gracz otrzymuje 1 PZ;Kapitan za pierwszym razem 1PZ wiecej;Na kazdym
+statku jeden typ towaru, ilosc i rozmiar statkow ustalone z poczatkiem gry \\
+\textbf{Priorytet: S}  \\
+\textbf{Koszt: 3h}  \\
+
+\subsection{Story 8}
+\textbf{Tytul:} Okreslenie zwyciezcy \\
+\textbf{Opis:} Wygrywa ten kto ma najwiecej PZ \\
+\textbf{Priorytet:} W \\
+\textbf{Koszt:} 0h \\
 
 \subsection{Story 19}
 \textbf{Tytul:} Role specjalne budynków \\
@@ -55,10 +175,6 @@ budynki (tyle towaru ile kolonistow w przetworniach, gdy jest tyle plantacji)\\
 \textbf{Priorytet:} W \\
 \textbf{Koszt:} ?h \\
 
-\subsection{Story }
-\textbf{Tytul:}  \\
-\textbf{Opis:}  \\
-\textbf{Priorytet:}  \\
-\textbf{Koszt:}  \\
+\section{Zadania}
 
 \end{document}
