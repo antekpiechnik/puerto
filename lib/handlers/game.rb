@@ -21,6 +21,10 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     ]
   end
 
+  def player_stats(*args)
+    main.handler = Puerto::Handlers::PlayerState.new(main, self)
+  end
+
   def title
     "Puerto Rico %d-player game" % [players.size]
   end
