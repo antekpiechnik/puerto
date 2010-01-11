@@ -1,4 +1,4 @@
-class Player
+class Puerto::Player
   attr_reader :name
 
   def initialize(name)
@@ -14,8 +14,8 @@ class Player
   end
 
   def self.create(names)
-    if Player.validates_player_no?(names.length)
-      return names.map { |name| Player.new(name) }
+    if self.validates_player_no?(names.length)
+      return names.map { |name| self.new(name) }
     else
       return []
     end

@@ -1,5 +1,5 @@
-require 'output_helper.rb'
-require 'exceptions.rb'
+require File.join('lib', 'output_helper')
+require File.join('lib', 'exceptions')
 
 ##
 # This is abstract class for handlers. Handler is a special class responsible
@@ -7,7 +7,7 @@ require 'exceptions.rb'
 # {#handle} method which dispatches requests to handlers.
 #
 # Handler actions *must* return String to render (even if it's empty).
-class PuertoHandler
+class Puerto::Handlers::BaseHandler
   include OutputHelper
 
   attr_accessor :flash_message

@@ -1,4 +1,4 @@
-class Game < PuertoHandler
+class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   attr_reader :main
 
   def initialize(main)

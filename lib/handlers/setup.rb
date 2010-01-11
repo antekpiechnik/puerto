@@ -1,7 +1,4 @@
-require 'game.rb'
-require 'player.rb'
-
-class Setup < PuertoHandler
+class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   attr_reader :main, :players
 
   def initialize(main)
@@ -26,14 +23,14 @@ class Setup < PuertoHandler
   end
 
   def start_game
-    main.handler = Game.new(self)
+    main.handler = Puerto::Handlers::Game.new(self)
   end
 
   def set_players
     @names = []
     puts "Please set number of players"
     player_no = gets.to_i
-    unless Player::validates_player_no?(player_no)
+    unless Puerto::Player::validates_player_no?(player_no)
       self.flash = "Players between 3 and 5 (inclusive)"
       return
     end
@@ -41,12 +38,12 @@ class Setup < PuertoHandler
     while to_go <= player_no
       print "Player %d name: " % [to_go]
       name = gets.chomp
-      if Player::validates_name_uniq?(@names, name)
+      if Puerto::Player::validates_name_uniq?(@names, name)
         @names << name
         to_go += 1
       end
     end
-    @players = Player::create(@names)
+    @players = Puerto::Player::create(@names)
     self.flash = "Players set: %p" % [@players]
   end
 
