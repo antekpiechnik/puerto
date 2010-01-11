@@ -40,19 +40,15 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
     end while @main_loop
   end
 
-  def start
+  def start(*args)
     self.handler = Puerto::Handlers::Setup.new(self)
   end
 
-  def exit
-    end_main_loop
+  def exit(*args)
+    @main_loop = false
   end
 
   def title
     "Main menu"
-  end
-
-  def end_main_loop
-    @main_loop = false
   end
 end

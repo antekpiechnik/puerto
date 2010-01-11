@@ -27,7 +27,7 @@ class Puerto::Handlers::BaseHandler
     puts @_out if @_out
   end
 
-  def run
+  def run(*args)
     raise Puerto::AbstractMethodError
   end
 
@@ -48,13 +48,13 @@ class Puerto::Handlers::BaseHandler
     if name.is_a?(String)
       menu = menu_options.assoc(name)
       if menu
-        name = menu[1][1]
+        name, *args = menu[1][1 .. -1]
       else
         self.flash = "Invalid option"
       end
     end
     if name.is_a?(Symbol) and self.respond_to?(name)
-      self.send(name)
+      self.send(name, args)
     elsif name.is_a?(String)
       ""
     else

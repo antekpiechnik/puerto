@@ -18,15 +18,15 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     ]
   end
 
-  def back_to_main
+  def back_to_main(*args)
     main.handler = main
   end
 
-  def start_game
+  def start_game(*args)
     main.handler = Puerto::Handlers::Game.new(self)
   end
 
-  def set_players
+  def set_players(*args)
     @names = []
     puts "Please set number of players"
     player_no = gets.to_i
