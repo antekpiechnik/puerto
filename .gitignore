@@ -1,6 +1,4 @@
-doc/*.pdf
-doc/*.numbers
-src/doc/
-src/.yardoc/
+doc/
+.yardoc/
 *.log
 *.swp
