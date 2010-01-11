@@ -1,8 +1,4 @@
 module Puerto::OutputHelper
-  def menu(label)
-    frame(@main.handler.menu_options.map { |n, s| "%d. %s" % [n, s[0]] }.join("   |   "), label)
-  end
-
   def frame(text, legend, width = nil)
     width ||= tty_width
     str = ""
@@ -20,15 +16,15 @@ module Puerto::OutputHelper
   end
 
   def flash=(msg)
-    @main.flash_message = msg
+    main.flash_message = msg
   end
 
   def flash?
-    ! @main.flash_message.nil?
+    ! main.flash_message.nil?
   end
 
   def reset_flash
-    @main.flash_message = nil
+    main.flash_message = nil
   end
 
   def clear
@@ -48,9 +44,9 @@ module Puerto::OutputHelper
   end
 
   def flash
-    return nil unless this_flash = @main.flash_message
+    return nil unless this_flash = main.flash_message
     s = frame(this_flash, "Info")
-    @main.reset_flash
+    main.reset_flash
     s
   end
 

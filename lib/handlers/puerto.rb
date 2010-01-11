@@ -1,14 +1,19 @@
 class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
-  attr_reader :handler
-
   def initialize
     self.handler = self
-    @main = self
   end
 
   def handler=(handler)
     @handler = handler
     @first_run = true
+  end
+
+  def handler
+    @handler
+  end
+
+  def main
+    self
   end
 
   def run
@@ -29,13 +34,13 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
 
     begin
       if @first_run
-        @_out = handler.run
+        @_out = @handler.run
         @first_run = false
       end
       redraw_template
       input = read_input
       unless input.nil?
-        @_out = frame(self.handler.handle(input).to_s, "Game")
+        @_out = frame(@handler.handle(input).to_s, "Game")
       end
     end while @main_loop
   end
@@ -51,4 +56,16 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   def title
     "Main menu"
   end
+
+  def menu(label)
+    frame(@handler.menu_options.map { |n, s| "%d. %s" % [n, s[0]] }.join("   |   "), label)
+  end
+
+  def redraw_template
+    clear
+    puts flash if flash?
+    puts menu(title)
+    puts @_out if @_out
+  end
+
 end
