@@ -36,6 +36,7 @@ module OutputHelper
   end
 
   def read_input
+    print "Your choice: "
     input = gets
     if input.nil? or input.chomp.empty?
       self.flash = "Empty input"
