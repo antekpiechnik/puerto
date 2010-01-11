@@ -36,6 +36,7 @@ module OutputHelper
   end
 
   def read_input
+    print "Your choice: "
     input = gets
     if input.nil? or input.chomp.empty?
       self.flash = "Empty input"
@@ -55,7 +56,7 @@ module OutputHelper
 
   private
   def extract_line(text, width)
-    line = text.split(/[\r\n]/)[0]
+    line = text.split(/[\r\n]/)[0] || ""
     if line.length > width - 2
       size = width - 2
       line = line.split(" ")

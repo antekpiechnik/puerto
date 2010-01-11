@@ -1,5 +1,12 @@
 require 'output_helper.rb'
+require 'exceptions.rb'
 
+##
+# This is abstract class for handlers. Handler is a special class responsible
+# for some _module_ of game, say main menu or loading game. The core is
+# {#handle} method which dispatches requests to handlers.
+#
+# Handler actions *must* return String to render (even if it's empty).
 class PuertoHandler
   include OutputHelper
 
@@ -17,6 +24,7 @@ class PuertoHandler
     clear
     puts flash if flash?
     puts menu(@main.handler.title)
+    puts @_out if @_out
   end
 
   def run
@@ -27,6 +35,15 @@ class PuertoHandler
     raise AbstractMethodError
   end
 
+  ##
+  # Handle requests (user input or explicit code handle requests). If `name` is
+  # a String then handle it as menu request, else it should be a symbol so send
+  # a method named `name` to current handler.
+  #
+  # @param name[String, Symbol] menu choice or handler method name
+  # @return String response from handler
+  # @raise [HandlerNotFound] raised if handler method was not found in current
+  #   handler
   def handle(name)
     if name.is_a?(String)
       menu = menu_options.assoc(name)
@@ -39,22 +56,22 @@ class PuertoHandler
     if name.is_a?(Symbol) and self.respond_to?(name)
       self.send(name)
     elsif name.is_a?(String)
-      # do nothing
+      ""
     else
-      raise HandlerNotFound.new("Handler %p not found in %p" % [name, self.class])
+      raise HandlerNotFound.new(self.class, name)
     end
   end
 
+  ##
+  # Override to provide menu for handler. Array elements should look like:
+  #     ["1", ["Start", :start_game]]
+  #
+  # First element is stringified number which will indicate what input should
+  # trigger the option, second element is an array: name of menu option and
+  # handler method symbol.
+  #
+  # @return [Array<String, Array<String, Symbol>>]
   def menu_options
     raise AbstractMethodError
-  end
-
-  class PuertoError < Exception
-  end
-
-  class AbstractMethodError < PuertoError
-  end
-
-  class HandlerNotFound < PuertoError
   end
 end

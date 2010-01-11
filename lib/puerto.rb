@@ -16,7 +16,7 @@ class Puerto < PuertoHandler
   end
 
   def run
-    puts frame("Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik", "Welcome")
+    frame("Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik", "Game")
   end
 
   def menu_options
@@ -32,13 +32,15 @@ class Puerto < PuertoHandler
     @main_loop = true
 
     begin
-      redraw_template
       if @first_run
-        handler.run
+        @_out = handler.run
         @first_run = false
       end
+      redraw_template
       input = read_input
-      self.handler.handle(input) unless input.nil?
+      unless input.nil?
+        @_out = frame(self.handler.handle(input).to_s, "Game")
+      end
     end while @main_loop
   end
 
@@ -48,8 +50,6 @@ class Puerto < PuertoHandler
 
   def exit
     end_main_loop
-    clear
-    puts "Good bye"
   end
 
   def title
