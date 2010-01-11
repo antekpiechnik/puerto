@@ -1,9 +1,13 @@
 require 'output_helper.rb'
 
-class AbstractPuerto
+class PuertoHandler
   include OutputHelper
 
   attr_accessor :flash_message
+
+  def initialize(main)
+    self.main = main
+  end
 
   def main
     raise AbstractMethodError

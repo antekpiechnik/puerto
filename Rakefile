@@ -12,3 +12,7 @@ end
 YARD::Rake::YardocTask.new do |t|
   t.options = ['--protected', '--private', '--title', 'Puerto Rico Documentation', '--markup', 'markdown']
 end
+
+desc "Everything"
+task :all => [:test, :doc] do |t|
+end

@@ -1,8 +1,11 @@
-require 'abstract_puerto.rb'
-require 'game.rb'
+require 'puerto_handler.rb'
+require 'setup.rb'
 
-class Puerto < AbstractPuerto
+class Puerto < PuertoHandler
   attr_reader :handler
+
+  def initialize
+  end
 
   def handler=(handler)
     @handler = handler
@@ -38,7 +41,7 @@ class Puerto < AbstractPuerto
   end
 
   def start
-    self.handler = Game.new(self)
+    self.handler = Setup.new(self)
   end
 
   def exit
