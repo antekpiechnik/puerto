@@ -8,7 +8,7 @@ require File.join('lib', 'exceptions')
 #
 # Handler actions *must* return String to render (even if it's empty).
 class Puerto::Handlers::BaseHandler
-  include OutputHelper
+  include Puerto::OutputHelper
 
   attr_accessor :flash_message
 
@@ -17,7 +17,7 @@ class Puerto::Handlers::BaseHandler
   end
 
   def main
-    raise AbstractMethodError
+    raise Puerto::AbstractMethodError
   end
 
   def redraw_template
@@ -28,11 +28,11 @@ class Puerto::Handlers::BaseHandler
   end
 
   def run
-    raise AbstractMethodError
+    raise Puerto::AbstractMethodError
   end
 
   def title
-    raise AbstractMethodError
+    raise Puerto::AbstractMethodError
   end
 
   ##
@@ -58,7 +58,7 @@ class Puerto::Handlers::BaseHandler
     elsif name.is_a?(String)
       ""
     else
-      raise HandlerNotFound.new(self.class, name)
+      raise Puerto::HandlerNotFound.new(self.class, name)
     end
   end
 
@@ -72,6 +72,6 @@ class Puerto::Handlers::BaseHandler
   #
   # @return [Array<String, Array<String, Symbol>>]
   def menu_options
-    raise AbstractMethodError
+    raise Puerto::AbstractMethodError
   end
 end

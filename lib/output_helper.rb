@@ -1,4 +1,4 @@
-module OutputHelper
+module Puerto::OutputHelper
   def menu(label)
     frame(@main.handler.menu_options.map { |n, s| "%d. %s" % [n, s[0]] }.join("   |   "), label)
   end
