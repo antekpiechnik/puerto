@@ -19,6 +19,40 @@ module OutputHelper
     str
   end
 
+  def flash=(msg)
+    @main.flash_message = msg
+  end
+
+  def flash?
+    ! @main.flash_message.nil?
+  end
+
+  def reset_flash
+    @main.flash_message = nil
+  end
+
+  def clear
+    system("clear")
+  end
+
+  def read_input
+    input = gets
+    if input.nil? or input.chomp.empty?
+      self.flash = "Empty input"
+      return nil
+    else
+      input.chomp!
+    end
+    input
+  end
+
+  def flash
+    return nil unless this_flash = @main.flash_message
+    s = frame(this_flash, "Info")
+    @main.reset_flash
+    s
+  end
+
   private
   def extract_line(text, width)
     line = text.split(/[\r\n]/)[0]

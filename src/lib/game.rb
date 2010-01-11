@@ -1,4 +1,6 @@
 class Game < AbstractPuerto
+  attr_reader :main
+
   def initialize(main)
     @main = main
     @players = []
@@ -17,7 +19,7 @@ class Game < AbstractPuerto
   end
 
   def back_to_main
-    @main.handler = @main
+    main.handler = main
   end
 
   def set_players

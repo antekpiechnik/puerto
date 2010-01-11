@@ -5,38 +5,8 @@ class AbstractPuerto
 
   attr_accessor :flash_message
 
-  def main_loop
-    raise AbstractMethodError
-  end
-
   def main
     raise AbstractMethodError
-  end
-
-  def read_input
-    input = gets
-    if input.nil? or input.chomp.empty?
-      self.flash = "Empty input"
-      return nil
-    else
-      input.chomp!
-    end
-    input
-  end
-
-  def flash
-    return nil unless this_flash = @main.flash_message
-    s = frame(this_flash, "Info")
-    @main.reset_flash
-    s
-  end
-
-  def flash=(msg)
-    @main.flash_message = msg
-  end
-
-  def flash?
-    ! @main.flash_message.nil?
   end
 
   def redraw_template
@@ -51,10 +21,6 @@ class AbstractPuerto
 
   def title
     raise AbstractMethodError
-  end
-
-  def reset_flash
-    @main.flash_message = nil
   end
 
   def handle(name)
@@ -74,10 +40,6 @@ class AbstractPuerto
     else
       raise HandlerNotFound.new("Handler %p not found in %p" % [name, self.class])
     end
-  end
-
-  def clear
-    system("clear")
   end
 
   def menu_options
