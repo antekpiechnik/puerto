@@ -56,7 +56,7 @@ module OutputHelper
 
   private
   def extract_line(text, width)
-    line = text.split(/[\r\n]/)[0]
+    line = text.split(/[\r\n]/)[0] || ""
     if line.length > width - 2
       size = width - 2
       line = line.split(" ")
