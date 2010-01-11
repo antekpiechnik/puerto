@@ -1,4 +1,6 @@
 doc/*.pdf
 doc/*.numbers
+src/doc/
+src/.yardoc/
 *.log
 *.swp

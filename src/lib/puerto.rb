@@ -10,7 +10,7 @@ class Puerto < AbstractPuerto
   end
 
   def run
-    puts "Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik"
+    puts frame("Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik", "Welcome")
   end
 
   def menu_options
@@ -54,9 +54,4 @@ class Puerto < AbstractPuerto
   def end_main_loop
     @main_loop = false
   end
-end
-
-if __FILE__ == $0
-  p = Puerto.new
-  p.main_loop
 end

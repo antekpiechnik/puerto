@@ -1,7 +1,7 @@
-require 'output.rb'
+require 'output_helper.rb'
 
 class AbstractPuerto
-  include Output
+  include OutputHelper
 
   attr_accessor :flash_message
 
