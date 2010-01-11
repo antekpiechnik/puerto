@@ -5,6 +5,8 @@ class Puerto < PuertoHandler
   attr_reader :handler
 
   def initialize
+    self.handler = self
+    @main = self
   end
 
   def handler=(handler)
@@ -27,8 +29,7 @@ class Puerto < PuertoHandler
 
   def main_loop
     @main_loop = true
-    @main = self
-    self.handler = self
+
     begin
       redraw_template
       if @first_run

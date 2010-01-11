@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'lib/puerto'
 
 module TestHelpers
   def assert_custom

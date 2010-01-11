@@ -28,7 +28,6 @@ class PuertoHandler
   end
 
   def handle(name)
-    redraw_template
     if name.is_a?(String)
       menu = menu_options.assoc(name)
       if menu
