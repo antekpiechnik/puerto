@@ -10,7 +10,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def run
-    puts frame(players.join("\n"), "Players")
+    frame(players.join("\n"), "Players")
   end
 
   def menu_options

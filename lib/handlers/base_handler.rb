@@ -12,19 +12,8 @@ class Puerto::Handlers::BaseHandler
 
   attr_accessor :flash_message
 
-  def initialize(main)
-    self.main = main
-  end
-
   def main
     raise Puerto::AbstractMethodError
-  end
-
-  def redraw_template
-    clear
-    puts flash if flash?
-    puts menu(@main.handler.title)
-    puts @_out if @_out
   end
 
   def run(*args)
@@ -33,6 +22,14 @@ class Puerto::Handlers::BaseHandler
 
   def title
     raise Puerto::AbstractMethodError
+  end
+
+  def handler=(new_handler)
+    main.handler = new_handler
+  end
+
+  def handler
+    main.handler
   end
 
   ##
