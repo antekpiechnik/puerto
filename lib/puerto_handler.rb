@@ -17,6 +17,7 @@ class PuertoHandler
     clear
     puts flash if flash?
     puts menu(@main.handler.title)
+    puts @_out if @_out
   end
 
   def run

@@ -9,7 +9,7 @@ class Setup < PuertoHandler
   end
 
   def run
-    puts "Players: %p" % [@players]
+    frame("Players: %p" % [@players], "Main")
   end
 
   def menu_options
