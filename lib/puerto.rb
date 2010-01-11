@@ -1,5 +1,6 @@
 require 'puerto_handler.rb'
 require 'setup.rb'
+require 'player.rb'
 
 class Puerto < PuertoHandler
   attr_reader :handler

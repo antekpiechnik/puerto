@@ -1,4 +1,5 @@
 require 'game.rb'
+require 'player.rb'
 
 class Setup < PuertoHandler
   attr_reader :main, :players
@@ -29,10 +30,10 @@ class Setup < PuertoHandler
   end
 
   def set_players
-    @players = []
+    @names = []
     puts "Please set number of players"
     player_no = gets.to_i
-    unless (3..5).include?(player_no)
+    unless Player::validates_player_no?(player_no)
       self.flash = "Players between 3 and 5 (inclusive)"
       return
     end
@@ -40,11 +41,12 @@ class Setup < PuertoHandler
     while to_go <= player_no
       print "Player %d name: " % [to_go]
       name = gets.chomp
-      if name != "" and not @players.include?(name)
-        @players << name
+      if Player::validates_name_uniq?(@names, name)
+        @names << name
         to_go += 1
       end
     end
+    @players = Player::create(@names)
     self.flash = "Players set: %p" % [@players]
   end
 
