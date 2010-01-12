@@ -1,8 +1,10 @@
 class Puerto::Player
   attr_reader :name
+  attr_accessor :next_player
 
   def initialize(name)
     @name = name
+    @governor = false
   end
 
   def self.validates_name_uniq?(names, new_name)
@@ -15,9 +17,27 @@ class Puerto::Player
 
   def self.create(names)
     if self.validates_player_no?(names.length)
-      return names.map { |name| self.new(name) }
+      players = names.map { |name| self.new(name) }
+      self.loop_players(players)
+      players.first.governor!
+      players
     else
-      return []
+      []
     end
+  end
+
+  def governor!
+    @governor = true
+  end
+
+  def governor?
+    @governor
+  end
+
+  def self.loop_players(players)
+    (players.length - 1).times do |i|
+      players[i].next_player = players[i + 1]
+    end
+    players.last.next_player = players.first
   end
 end

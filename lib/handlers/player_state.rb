@@ -24,7 +24,6 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   end
 
   def player_state(*args)
-    p args
     @picked_player = args[0]
   end
 
