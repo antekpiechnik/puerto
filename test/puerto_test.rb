@@ -1,9 +1,16 @@
 require 'test/test_helper'
 
 class PuertoTest < Test::Unit::TestCase
+  def setup
+    @puerto = Puerto::Handlers::Puerto.new
+  end
+
   def test_menu
-    p = Puerto::Handlers::Puerto.new
-    p.handler.handle(:start)
-    assert p.handler.is_a?(Puerto::Handlers::Setup)
+    @puerto.handler.handle(:start)
+    assert @puerto.handler.is_a?(Puerto::Handlers::Setup)
+  end
+
+  def test_assigning_handler_returns_nil
+    assert_nil @puerto.assign_handler(@puerto)
   end
 end

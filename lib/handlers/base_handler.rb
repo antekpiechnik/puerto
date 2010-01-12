@@ -50,7 +50,7 @@ class Puerto::Handlers::BaseHandler
   #
   # @param [Puerto::Handlers::BaseHandler] new_handler new or existing instance
   #   of handler
-  # @return [void]
+  # @return [nil] returns nil so that we don't print handler
   def assign_handler(new_handler)
     main.assign_handler(new_handler)
   end
