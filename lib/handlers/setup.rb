@@ -48,7 +48,7 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
       end
     end
     @players = Puerto::Player.create(names)
-    self.flash = "Players set: %p" % [@players]
+    self.flash = "Players set: %p" % [@players.map(&:to_s)]
   end
 
   def title
