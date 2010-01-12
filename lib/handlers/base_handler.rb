@@ -82,7 +82,7 @@ class Puerto::Handlers::BaseHandler
       end
     end
     if name.is_a?(Symbol) and self.respond_to?(name)
-      self.send(name, args)
+      self.send(name, *args)
     elsif name.is_a?(String)
       ""
     else

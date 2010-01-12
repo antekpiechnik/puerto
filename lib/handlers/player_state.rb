@@ -8,15 +8,15 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
 
   def run
     if @picked_player.nil?
-      puts frame("Pick a player.", "Player state")
+      frame("Pick a player.", "Player state")
     else
-      puts frame("Player name: #{@picked_player.name}", @picked_player.name)
+      frame("Player name: #{@picked_player.name}", @picked_player.name)
     end
   end
 
   def menu_options
     options = []
-    game.players.each do |player, number|
+    game.players.each_with_index do |player, number|
       options << [(number+1).to_s, [player.name.capitalize, :player_state, player]]
     end
     options << ["0", ["Back", :back_to_game]]
@@ -24,7 +24,8 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   end
 
   def player_state(*args)
-    @picked_player = player
+    p args
+    @picked_player = args[0]
   end
 
   def back_to_game(*args)
