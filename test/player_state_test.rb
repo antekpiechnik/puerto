@@ -26,5 +26,20 @@ class PlayerStateTest < Test::Unit::TestCase
     end
   end
 
+  def test_current_sees_all_doubloons
+    @players[1].add_doubloons(3)
+    if @players[0].current?
+      screen = @playerstate.player_state(*[@players[1]])
+      assert screen.include?("Doubloons: %d" % @players[1].doubloons)
+    end
+  end
+
+  def test_current_sees_his_doubloons
+    @players[0].add_doubloons(5)
+    if @players[0].current?
+      screen = @playerstate.player_state(*[@players[0]])
+      assert screen.include?("Doubloons: %d" % @players[0].doubloons)
+    end
+  end
 end
 

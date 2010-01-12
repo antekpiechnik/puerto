@@ -30,7 +30,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
     result << "Doubloons: %d\n" % picked.doubloons
     result << "Goods: %s\n" % picked.goods.to_s
     if picked.current?
-      result << "VPs: %d\n" % picked.vp
+      result << "VPs: %d\n" % picked.vps
     end
     result
   end

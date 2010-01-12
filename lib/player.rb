@@ -1,12 +1,12 @@
 class Puerto::Player
-  attr_reader :name, :buildings, :vp, :plantations, :doubloons, :goods
+  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods
   attr_accessor :next_player
 
   def initialize(name)
     @name = name
     @buildings = []
     @plantations = []
-    @vp = 0
+    @vps = 0
     @doubloons = 0
     @goods = []
     @current = @governor = false
@@ -33,6 +33,14 @@ class Puerto::Player
 
   def to_s
     @name
+  end
+
+  def add_doubloons(amount)
+    @doubloons += amount
+  end
+
+  def add_vps(amount)
+    @vps += amount
   end
 
   def governor!
