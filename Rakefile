@@ -24,5 +24,4 @@ YARD::Rake::YardocTask.new do |t|
 end
 
 desc "Everything"
-task :all => [:test, :doc] do |t|
-end
+task :all => [:test, :yard]
