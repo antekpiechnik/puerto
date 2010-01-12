@@ -31,7 +31,7 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   end
 
   def set_players(*args)
-    @names = []
+    names = []
     puts "Please set number of players"
     player_no = gets.to_i
     unless Puerto::Player::validates_player_no?(player_no)
@@ -42,12 +42,12 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     while to_go <= player_no
       print "Player %d name: " % [to_go]
       name = gets.chomp
-      if Puerto::Player::validates_name_uniq?(@names, name)
-        @names << name
+      if Puerto::Player::validates_name_uniq?(names, name)
+        names << name
         to_go += 1
       end
     end
-    @players = Puerto::Player::create(@names)
+    @players = Puerto::Player.create(names)
     self.flash = "Players set: %p" % [@players]
   end
 

@@ -4,7 +4,7 @@ class Puerto::Player
 
   def initialize(name)
     @name = name
-    @governor = false
+    @current = @governor = false
   end
 
   def self.validates_name_uniq?(names, new_name)
@@ -27,11 +27,15 @@ class Puerto::Player
   end
 
   def governor!
-    @governor = true
+    @current = @governor = true
   end
 
   def governor?
     @governor
+  end
+
+  def current?
+    @current
   end
 
   def self.loop_players(players)
