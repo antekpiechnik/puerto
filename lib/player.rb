@@ -25,4 +25,8 @@ class Puerto::Player
       return []
     end
   end
+
+  def to_s
+    @name
+  end
 end
