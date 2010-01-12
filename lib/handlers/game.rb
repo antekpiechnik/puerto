@@ -1,16 +1,16 @@
 class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   attr_reader :main
 
-  def initialize(main)
-    @main = main
+  def initialize(setup)
+    @setup = setup
   end
 
   def players
-    main.players
+    @setup.players
   end
 
   def run
-    frame(players.join("\n"), "Players")
+    frame(players.join("\n"))
   end
 
   def menu_options
@@ -22,7 +22,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def player_stats(*args)
-    main.handler = Puerto::Handlers::PlayerState.new(main, self)
+    self.assign_handler(Puerto::Handlers::PlayerState.new(self))
   end
 
   def title

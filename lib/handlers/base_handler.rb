@@ -11,6 +11,7 @@ class Puerto::Handlers::BaseHandler
   include Puerto::OutputHelper
 
   attr_accessor :flash_message
+  attr_writer :main
 
   def main
     raise Puerto::AbstractMethodError
@@ -24,8 +25,8 @@ class Puerto::Handlers::BaseHandler
     raise Puerto::AbstractMethodError
   end
 
-  def handler=(new_handler)
-    main.handler = new_handler
+  def assign_handler(new_handler)
+    main.assign_handler(new_handler)
   end
 
   def handler

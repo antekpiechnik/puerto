@@ -1,6 +1,7 @@
 module Puerto::OutputHelper
-  def frame(text, legend, width = nil)
+  def frame(text, legend = nil, width = nil)
     width ||= tty_width
+    legend ||= self.title
     str = ""
     str << "+ --[ %s%s%s ] " % ["\033[00;32m", legend, "\033[00;37m"]
     str << "-" * (width - legend.length - 8)

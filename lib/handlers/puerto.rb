@@ -1,15 +1,16 @@
 class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   def initialize
-    self.handler = self
-  end
-
-  def handler=(handler)
-    @handler = handler
-    @first_run = true
+    self.assign_handler(self)
   end
 
   def handler
     @handler
+  end
+
+  def assign_handler(new_handler)
+    @handler = new_handler
+    @first_run = true
+    new_handler.main = self.main
   end
 
   def main
@@ -17,7 +18,7 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   end
 
   def run
-    frame("Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik", "Game")
+    frame("Welcome to PuertoRico. Implementation: Michal Bugno and Antek Piechnik")
   end
 
   def menu_options
@@ -40,13 +41,13 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
       redraw_template
       input = read_input
       unless input.nil?
-        @_out = frame(@handler.handle(input).to_s, "Game")
+        @_out = frame(@handler.handle(input).to_s, @handler.title)
       end
     end while @main_loop
   end
 
   def start(*args)
-    self.handler = Puerto::Handlers::Setup.new(self)
+    self.assign_handler(Puerto::Handlers::Setup.new)
   end
 
   def exit(*args)
@@ -54,7 +55,7 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   end
 
   def title
-    "Main menu"
+    "Puerto Rico"
   end
 
   def menu(label)
