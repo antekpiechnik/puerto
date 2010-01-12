@@ -1,8 +1,5 @@
 ##
 # Base PuertoRico exception.
-#
-# @see AbstractMethodError
-# @see HandlerNotFound
 class Puerto::Error < Exception
 end
 

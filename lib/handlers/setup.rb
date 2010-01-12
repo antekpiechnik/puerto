@@ -22,7 +22,12 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   end
 
   def start_game(*args)
-    self.assign_handler(Puerto::Handlers::Game.new(self))
+    if @players.empty?
+      self.flash = "Please set players"
+      nil
+    else
+      self.assign_handler(Puerto::Handlers::Game.new(self))
+    end
   end
 
   def set_players(*args)
