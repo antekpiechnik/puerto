@@ -23,14 +23,16 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   end
 
   def player_state(*args)
-    @picked_player = args[0]
-    @result = "Name: %s\n" % @picked_player.name
-    @result << "Buildings: %s\n" % @buildings.to_s
-    @result << "Plantations: %s\n" % @plantations.to_s
-    @result << "Doubloons: %d\n" % @doubloons
-    @result << "Goods: %s\n" % @goods.to_s
-    @result << "VPs: %d\n" % @vp
-    @result
+    picked = args[0]
+    result = "Name: %s\n" % picked.name
+    result << "Buildings: %s\n" % picked.buildings.to_s
+    result << "Plantations: %s\n" % picked.plantations.to_s
+    result << "Doubloons: %d\n" % picked.doubloons
+    result << "Goods: %s\n" % picked.goods.to_s
+    if picked.current?
+      result << "VPs: %d\n" % picked.vps
+    end
+    result
   end
 
   def back_to_game(*args)

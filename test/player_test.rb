@@ -33,7 +33,7 @@ class PlayerTest < Test::Unit::TestCase
     @players = Puerto::Player::create(["Joe", "John", "Jack"])
     @players.each do |player|
       assert_equal 0, player.doubloons
-      assert_equal 0, player.vp
+      assert_equal 0, player.vps
     end
   end
 
@@ -68,5 +68,25 @@ class PlayerTest < Test::Unit::TestCase
     p1.next!
     assert ! p1.current?
     assert p2.current?
+  end
+
+  def test_adding_doubloons
+    p1, p2, p3 = Puerto::Player.create(["a", "b", "c"])
+    p1.add_doubloons(5)
+    p1.add_doubloons(3)
+    p2.add_doubloons(6)
+    assert_equal 8, p1.doubloons
+    assert_equal 6, p2.doubloons
+    assert_equal 0, p3.doubloons
+  end
+
+  def test_adding_vps
+    p1, p2, p3 = Puerto::Player.create(["a", "b", "c"])
+    p1.add_vps(1)
+    p1.add_vps(2)
+    p2.add_vps(2)
+    assert_equal 3, p1.vps
+    assert_equal 2, p2.vps
+    assert_equal 0, p3.vps
   end
 end
