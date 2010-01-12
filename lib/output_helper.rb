@@ -1,4 +1,12 @@
 module Puerto::OutputHelper
+  ##
+  # Frame helper wraps `text` with a nice text frame and labels it. Newlines are
+  # handled -- if one occurs the text begins with new paragraph.
+  #
+  # @param [String] text text that will be wrapped
+  # @param [String] legend label legend
+  # @param [Integer] width frame width (if nil, current terminal width applies)
+  # @return [String] frame with `text` inside
   def frame(text, legend = nil, width = nil)
     width ||= tty_width
     legend ||= self.title
@@ -16,22 +24,20 @@ module Puerto::OutputHelper
     str
   end
 
-  def flash=(msg)
-    main.flash_message = msg
-  end
-
-  def flash?
-    ! main.flash_message.nil?
-  end
-
-  def reset_flash
-    main.flash_message = nil
-  end
-
+  ##
+  # Clears terminal screen so that we can display smooth.
+  #
+  # @return [void]
   def clear
     system("clear")
   end
 
+  ##
+  # Reads input and modifies it so that no end--line characters occur. Also
+  # displays prompt.
+  #
+  # @return [String, nil] text input or nil if no input occured (ctrl+d or
+  #   enter)
   def read_input
     print "Your choice: "
     input = gets
@@ -44,11 +50,13 @@ module Puerto::OutputHelper
     input
   end
 
-  def flash
-    return nil unless this_flash = main.flash_message
-    s = frame(this_flash, "Info")
-    main.reset_flash
-    s
+  ##
+  # Flash setter for handlers. It will display as a frame on top of game window
+  # until next input.
+  #
+  # @return [void]
+  def flash=(msg)
+    self.main.flash = msg
   end
 
   private

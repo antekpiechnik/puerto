@@ -16,12 +16,6 @@ require File.join('lib', 'exceptions')
 # Thus it's possible to send args to handler from menu.
 class Puerto::Handlers::BaseHandler
   include Puerto::OutputHelper
-
-  ##
-  # @todo this might be a subject to refactor (not needed in _all_ handlers)
-  # @return [String, nil] flash message if any
-  attr_accessor :flash_message
-
   ##
   # Main handler setter.
   #

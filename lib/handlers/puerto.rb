@@ -75,10 +75,27 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   end
 
   def redraw_template
-    clear
-    puts flash if flash?
-    puts menu(title)
+    self.clear
+    puts self.flash if self.flash?
+    puts self.menu(title)
     puts @_out if @_out
   end
 
+  def flash=(msg)
+    @flash = msg
+  end
+
+  def flash?
+    ! @flash.nil?
+  end
+
+  def reset_flash
+    f = @flash
+    @flash = nil
+    f
+  end
+
+  def flash
+    frame(self.reset_flash, "Info")
+  end
 end
