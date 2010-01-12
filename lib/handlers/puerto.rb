@@ -7,12 +7,16 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
     @handler
   end
 
+  ##
+  # Overriden because this is the main handler.
   def assign_handler(new_handler)
     @handler = new_handler
     @first_run = true
     new_handler.main = self.main
   end
 
+  ##
+  # Overriden because this is the main handler.
   def main
     self
   end
@@ -30,6 +34,10 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
     ]
   end
 
+  ##
+  # This is main loop, execution starts from here. It reads input and manages
+  # output, also invokes {Puerto::Handlers::BaseHandler#handle} based on input
+  # params.
   def main_loop
     @main_loop = true
 
@@ -46,10 +54,14 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
     end while @main_loop
   end
 
+  ##
+  # Handler method for starting game.
   def start(*args)
     self.assign_handler(Puerto::Handlers::Setup.new)
   end
 
+  ##
+  # Ends the main loop.
   def exit(*args)
     @main_loop = false
   end
