@@ -1,8 +1,13 @@
 class Puerto::Player
-  attr_reader :name
+  attr_reader :name, :buildings, :vp, :plantations, :doubloons, :goods
 
   def initialize(name)
     @name = name
+    @buildings = []
+    @plantations = []
+    @vp = 0
+    @doubloons = 0
+    @goods = []
   end
 
   def self.validates_name_uniq?(names, new_name)

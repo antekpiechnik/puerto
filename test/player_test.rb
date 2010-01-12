@@ -29,4 +29,11 @@ class PlayerTest < Test::Unit::TestCase
     assert_equal [], @players
   end
 
+  def test_players_dont_have_anything_on_start
+    @players = Puerto::Player::create(["Joe", "John", "Jack"])
+    @players.each do |player|
+      assert_equal 0, player.doubloons
+      assert_equal 0, player.vp
+    end
+  end
 end
