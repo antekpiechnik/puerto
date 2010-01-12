@@ -10,7 +10,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def current_player
-    players.find { |p| p.current? }
+    players.current
   end
 
   def run

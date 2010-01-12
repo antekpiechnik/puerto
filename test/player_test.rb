@@ -50,4 +50,23 @@ class PlayerTest < Test::Unit::TestCase
     assert ! p2.governor?
     assert ! p3.governor?
   end
+
+  def test_if_last_player_finishes_governor_switches
+    players = Puerto::Player.create(["a", "b", "c"])
+    p1, p2, p3 = players
+    assert p1.governor?
+    players.next!
+    players.next!
+    players.next!
+    assert ! p1.governor?
+    assert p2.governor?
+  end
+
+  def test_becoming_governor_cancels_previous_current
+    players = Puerto::Player.create(["a", "b", "c"])
+    p1, p2, p3 = players
+    p1.next!
+    assert ! p1.current?
+    assert p2.current?
+  end
 end
