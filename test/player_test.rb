@@ -36,4 +36,18 @@ class PlayerTest < Test::Unit::TestCase
       assert_equal 0, player.vp
     end
   end
+
+  def test_create_loop_players
+    p1, p2, p3 = Puerto::Player.create(["a", "b", "c"])
+    assert_equal p2, p1.next_player
+    assert_equal p3, p2.next_player
+    assert_equal p1, p3.next_player
+  end
+
+  def test_first_player_becomes_governor
+    p1, p2, p3 = Puerto::Player.create(["a", "b", "c"])
+    assert p1.governor?
+    assert ! p2.governor?
+    assert ! p3.governor?
+  end
 end

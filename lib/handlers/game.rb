@@ -9,6 +9,10 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     @setup.players
   end
 
+  def current_player
+    players.find { |p| p.current? }
+  end
+
   def run
     frame(players.join("\n"))
   end
