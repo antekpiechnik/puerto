@@ -54,9 +54,10 @@ module Puerto::OutputHelper
   # Flash setter for handlers. It will display as a frame on top of game window
   # until next input.
   #
-  # @return [void]
+  # @return [nil]
   def flash=(msg)
     self.main.flash = msg
+    nil
   end
 
   private

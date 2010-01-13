@@ -6,7 +6,11 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   end
 
   def run
-    frame("Players: %p" % [@players])
+    if @players.empty?
+      frame("Please set players")
+    else
+      player_text(@players)
+    end
   end
 
   def menu_options
@@ -24,7 +28,6 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   def start_game(*args)
     if @players.empty?
       self.flash = "Please set players"
-      nil
     else
       self.assign_handler(Puerto::Handlers::Game.new(self))
     end
@@ -48,10 +51,19 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
       end
     end
     @players = Puerto::Player.create(names)
-    self.flash = "Players set: %p" % [@players.map(&:to_s)]
+    player_text(@players)
   end
 
   def title
     "Setup"
+  end
+
+  private
+  def player_text(players)
+    out = []
+    players.each_with_index do |player, i|
+      out << "Player %d: %s" % [i + 1, player]
+    end
+    out.join("\n")
   end
 end
