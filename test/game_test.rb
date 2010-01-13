@@ -13,26 +13,6 @@ class GameTest < Test::Unit::TestCase
     assert_equal @game.current_player, @players.first
   end
 
-  def test_75vps_for_3player_game
-    assert_equal 75, @game.vps
-  end
-
-  def test_100vps_for_4player_game
-    players = Puerto::Player.create(["a", "b", "c", "d"])
-    setup = Puerto::Handlers::Setup.new
-    setup.instance_variable_set(:@players, players)
-    game = Puerto::Handlers::Game.new(setup)
-    assert_equal 100, game.vps
-  end
-
-  def test_122vps_for_5player_game
-    players = Puerto::Player.create(["a", "b", "c", "d", "e"])
-    setup = Puerto::Handlers::Setup.new
-    setup.instance_variable_set(:@players, players)
-    game = Puerto::Handlers::Game.new(setup)
-    assert_equal 122, game.vps
-  end
-
   def test_unique_goods_names
     goods = [
       Puerto::Handlers::Game::CORN,
@@ -46,5 +26,25 @@ class GameTest < Test::Unit::TestCase
   def test_nice_output_for_ships
     ships = [[4, 3, Puerto::Handlers::Game::COFFEE], [5, 0, nil], [6, 0, nil]].extend(CargoShipList)
     assert_equal "3/4(c), 0/5, 0/6", ships.to_s
+  end
+
+  3.upto(5) do |i|
+    define_method("test_correct_ships_for_%dplayer_game" % [i]) do
+      names = (1..i).map(&:to_s)
+      players = Puerto::Player.create(names)
+      setup = Puerto::Handlers::Setup.new
+      setup.instance_variable_set(:@players, players)
+      game = Puerto::Handlers::Game.new(setup)
+      assert_equal [i + 1, i + 2, i + 3], game.cargo_ships.map(&:first)
+    end
+
+    define_method("test_correct_vps_for_%dplayer_game" % [i]) do
+      names = (1..i).map(&:to_s)
+      players = Puerto::Player.create(names)
+      setup = Puerto::Handlers::Setup.new
+      setup.instance_variable_set(:@players, players)
+      game = Puerto::Handlers::Game.new(setup)
+      assert_equal({3 => 75, 4 => 100, 5 => 122}[i], game.vps)
+    end
   end
 end

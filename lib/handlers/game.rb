@@ -1,5 +1,5 @@
 class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
-  attr_reader :main, :vps
+  attr_reader :main, :vps, :cargo_ships
   CORN = "k"
   INDIGO = "i"
   SUGAR = "s"
@@ -12,7 +12,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     @goods = [[CORN, 10], [INDIGO, 11], [SUGAR, 11], [TOBACCO, 9] , [COFFEE, 9]]
     @vps = {3 => 75, 4 => 100, 5 => 122}[players.size]
     # [capacity, taken, good (nil if none)]
-    @cargo_ships = [[4, 0, nil], [5, 0, nil], [6, 0, nil]].extend(CargoShipList)
+    @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
   end
 
   def players
