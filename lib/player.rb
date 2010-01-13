@@ -49,7 +49,14 @@ class Puerto::Player
   #
   # @return [String]
   def to_s
-    self.name
+    opts = []
+    opts << "c" if current?
+    opts << "g" if governor?
+    if opts.empty?
+      self.name
+    else
+      "%s (%s)" % [self.name, opts.join(",")]
+    end
   end
 
   def add_doubloons(amount)

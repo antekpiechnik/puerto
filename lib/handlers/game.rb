@@ -36,6 +36,14 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
 
   ##
   # @action
+  def game_stats
+    out = []
+    out << ["Governor", players.governor.to_s]
+    tabular_output(out)
+  end
+
+  ##
+  # @action
   def end_game
     self.assign_handler(@setup)
   end

@@ -28,15 +28,16 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   # @action
   # @param [Puerto::Player] picked player chosed with menu
   def player_state(picked)
-    result = ["Name: %s" % picked.name]
-    result << "Buildings: %s" % picked.buildings.to_s
-    result << "Plantations: %s" % picked.plantations.to_s
-    result << "Doubloons: %d" % picked.doubloons
-    result << "Goods: %s" % picked.goods.to_s
+    result = []
+    result << ["Name", picked]
+    result << ["Buildings", picked.buildings]
+    result << ["Plantations", picked.plantations]
+    result << ["Doubloons", picked.doubloons]
+    result << ["Goods", picked.goods]
     if picked.current?
-      result << "VPs: %d" % picked.vps
+      result << ["VPs", picked.vps]
     end
-    result.join("\n")
+    tabular_output(result)
   end
 
   ##

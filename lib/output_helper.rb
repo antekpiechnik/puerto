@@ -80,4 +80,13 @@ module Puerto::OutputHelper
   def tty_width
     `stty size`.split(" ").last.to_i - 5 rescue 80
   end
+
+  def tabular_output(table)
+    width = table.map(&:first).map(&:size).max + 3
+    out = []
+    table.each do |name, value|
+      out << "%s : %s" % [name.rjust(width), value.to_s]
+    end
+    out.join("\n")
+  end
 end
