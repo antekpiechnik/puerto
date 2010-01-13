@@ -1,7 +1,12 @@
+##
+# Base class representing player. Responsible for {create creating players},
+# and keeping player state like Victory Points, plantations, # goods etc.
+#
+# Please note that the `players` Array returned by {create} is extended by
+# {Puerto::PlayerList} providing useful methods.
 class Puerto::Player
   attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods
-  attr_accessor :next_player
-  attr_accessor :previous_player
+  attr_accessor :next_player, :previous_player
 
   def initialize(name)
     @name = name
@@ -21,6 +26,12 @@ class Puerto::Player
     (3..5).include?(number)
   end
 
+  ##
+  # This method is the only way to create valid player list. It sets current
+  # player, governor, links next/previous players and extends the list by useful
+  # methods like returning current player.
+  #
+  # @return [Array extended by Puerto::PlayerList]
   def self.create(names)
     if self.validates_player_no?(names.length)
       players = names.map { |name| self.new(name) }
@@ -33,8 +44,12 @@ class Puerto::Player
     end
   end
 
+  ##
+  # String representation of player.
+  #
+  # @return [String]
   def to_s
-    @name
+    self.name
   end
 
   def add_doubloons(amount)
@@ -87,15 +102,39 @@ class Puerto::Player
   end
 end
 
+##
+# This module extends player list returned by {Puerto::Player.create}. It
+# provides interface for {Puerto::PlayerList#next! switching to next player},
+# getting {Puerto::PlayerList#current current player} and
+# {Puerto::PlayerList#governor current governor}.
+#
+# @example
+#   players = Puerto::Player.create(["a", "b", "c"])
+#   players.current.name #=> "a"
+#   players.next!
+#   players.current.name #=> "b"
+#   players.governor.name #=> "a"
 module Puerto::PlayerList
+  ##
+  # Switches to next player. Handles changing governor also (if needed)
+  #
+  # @return [void]
   def next!
     current.next!
   end
 
+  ##
+  # Returns current player.
+  #
+  # @return [Puerto::Player] current player
   def current
     find { |p| p.current? }
   end
 
+  ##
+  # Returns current governor.
+  #
+  # @return [Puerto::Player] governor player
   def governor
     find { |p| p.governor? }
   end
