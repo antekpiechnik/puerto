@@ -6,7 +6,7 @@ class PuertoTest < Test::Unit::TestCase
   end
 
   def test_menu
-    @puerto.handler.handle(:start)
+    @puerto.handler.handle("1")
     assert @puerto.handler.is_a?(Puerto::Handlers::Setup)
   end
 

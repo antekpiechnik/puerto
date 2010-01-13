@@ -13,6 +13,8 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     players.current
   end
 
+  ##
+  # @action
   def run
     frame(players.join("\n"))
   end
@@ -26,11 +28,15 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     ]
   end
 
-  def player_stats(*args)
+  ##
+  # @action
+  def player_stats
     self.assign_handler(Puerto::Handlers::PlayerState.new(self))
   end
 
-  def end_game(*args)
+  ##
+  # @action
+  def end_game
     self.assign_handler(@setup)
   end
 

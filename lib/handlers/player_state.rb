@@ -5,6 +5,8 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
     @game = game
   end
 
+  ##
+  # @action
   def run
     if @picked_player.nil?
       frame("Pick a player.", "Player state")
@@ -22,8 +24,10 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
     return options
   end
 
-  def player_state(*args)
-    picked = args[0]
+  ##
+  # @action
+  # @param [Puerto::Player] picked player chosed with menu
+  def player_state(picked)
     result = ["Name: %s" % picked.name]
     result << "Buildings: %s" % picked.buildings.to_s
     result << "Plantations: %s" % picked.plantations.to_s
@@ -35,7 +39,9 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
     result.join("\n")
   end
 
-  def back_to_game(*args)
+  ##
+  # @action
+  def back_to_game
     self.assign_handler(game)
   end
 

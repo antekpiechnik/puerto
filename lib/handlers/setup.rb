@@ -5,6 +5,8 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     @players = []
   end
 
+  ##
+  # @action
   def run
     if @players.empty?
       frame("Please set players")
@@ -21,11 +23,15 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     ]
   end
 
-  def back_to_main(*args)
+  ##
+  # @action
+  def back_to_main
     self.assign_handler(main)
   end
 
-  def start_game(*args)
+  ##
+  # @action
+  def start_game
     if @players.empty?
       self.flash = "Please set players"
     else
@@ -33,6 +39,8 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     end
   end
 
+  ##
+  # @action
   def set_players(*args)
     names = []
     puts "Please set number of players"

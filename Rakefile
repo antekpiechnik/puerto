@@ -9,15 +9,15 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-# YARD::Tags::Library.define_tag :handler_method, :handler_method
+YARD::Tags::Library.define_tag :action, :action
 
-# class MyYardFactory < YARD::Tags::DefaultFactory
-  # def parse_tag_handler_method
-    # "loal"
-  # end
-# end
+class MyYardFactory < YARD::Tags::DefaultFactory
+  def parse_tag_action
+    # dummy
+  end
+end
 
-# YARD::Tags::Library.default_factory = MyYardFactory
+YARD::Tags::Library.default_factory = MyYardFactory
 
 YARD::Rake::YardocTask.new do |t|
   t.options = ['--protected', '--private', '--title', 'Puerto Rico Documentation', '--markup', 'markdown']
