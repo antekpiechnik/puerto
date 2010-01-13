@@ -33,6 +33,7 @@ class Puerto::Handlers::BaseHandler
   ##
   # Invoked once after `self` was passed execution by another handler.
   # @return [String] frame's content
+  # @action
   def run(*args)
     raise Puerto::AbstractMethodError
   end

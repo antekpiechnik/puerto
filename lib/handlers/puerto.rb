@@ -58,13 +58,17 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
 
   ##
   # Handler method for starting game.
-  def start(*args)
+  #
+  # @action
+  def start
     self.assign_handler(Puerto::Handlers::Setup.new)
   end
 
   ##
   # Ends the main loop.
-  def exit(*args)
+  #
+  # @action
+  def exit
     @main_loop = false
   end
 

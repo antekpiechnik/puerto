@@ -18,7 +18,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   def menu_options
     options = []
     game.players.each_with_index do |player, number|
-      options << [(number+1).to_s, [player.name.capitalize, :player_state, player]]
+      options << [(number + 1).to_s, [player.to_s, :player_state, player]]
     end
     options << ["0", ["Back", :back_to_game]]
     return options

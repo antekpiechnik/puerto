@@ -41,7 +41,7 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
 
   ##
   # @action
-  def set_players(*args)
+  def set_players
     names = []
     puts "Please set number of players"
     player_no = gets.to_i
