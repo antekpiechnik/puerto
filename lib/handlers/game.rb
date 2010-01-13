@@ -1,8 +1,18 @@
 class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
-  attr_reader :main
+  attr_reader :main, :vps
+  CORN = "k"
+  INDIGO = "i"
+  SUGAR = "s"
+  TOBACCO = "t"
+  COFFEE = "c"
 
   def initialize(setup)
     @setup = setup
+    @trading_house = []
+    @goods = [[CORN, 10], [INDIGO, 11], [SUGAR, 11], [TOBACCO, 9] , [COFFEE, 9]]
+    @vps = {3 => 75, 4 => 100, 5 => 122}[players.size]
+    # [capacity, taken, good (nil if none)]
+    @cargo_ships = [[4, 0, nil], [5, 0, nil], [6, 0, nil]].extend(CargoShipList)
   end
 
   def players
@@ -39,6 +49,10 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   def game_stats
     out = []
     out << ["Governor", players.governor.to_s]
+    out << ["Trading house", @trading_house.to_s]
+    out << ["VPs", @vps]
+    out << ["Goods", @goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
+    out << ["Cargo ships", @cargo_ships.to_s]
     tabular_output(out)
   end
 
@@ -50,5 +64,19 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
 
   def title
     "Puerto Rico %d-player game" % [players.size]
+  end
+end
+
+module CargoShipList
+  def to_s
+    ret = []
+    each do |capacity, taken, good|
+      if good
+        ret << "%d/%d(%s)" % [taken, capacity, good]
+      else
+        ret << "%d/%d" % [taken, capacity]
+      end
+    end
+    ret.join(", ")
   end
 end
