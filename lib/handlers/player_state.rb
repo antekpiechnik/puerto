@@ -26,7 +26,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
 
   ##
   # @action
-  # @param [Puerto::Player] picked player chosed with menu
+  # @param [Puerto::Player] picked player chosen with menu
   def player_state(picked)
     result = []
     result << ["Name", picked]

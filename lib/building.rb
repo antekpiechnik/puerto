@@ -59,6 +59,19 @@ class Puerto::Building
     ].freeze
   end
 
+  def self.buy_building(available, requested)
+    building = available.find {|element| element[0]==requested[0] }
+
+    unless building.nil?
+      if building[1] > 0
+        building[1]-=1
+        return building
+      else
+        return nil
+      end
+    end
+  end
+
   def initialize(name, price, slots, vps)
   end
 end
