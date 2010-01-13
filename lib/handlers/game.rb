@@ -1,5 +1,6 @@
 class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
-  attr_reader :main, :vps, :cargo_ships
+  attr_reader :main, :vps, :cargo_ships, :colonists
+
   CORN = "k"
   INDIGO = "i"
   SUGAR = "s"
@@ -13,6 +14,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     @vps = {3 => 75, 4 => 100, 5 => 122}[players.size]
     # [capacity, taken, good (nil if none)]
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
+    @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
   end
 
   def players
@@ -51,6 +53,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     out << ["Governor", players.governor.to_s]
     out << ["Trading house", @trading_house.to_s]
     out << ["VPs", @vps]
+    out << ["Colonists", @colonists]
     out << ["Goods", @goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
     out << ["Cargo ships", @cargo_ships.to_s]
     tabular_output(out)
@@ -63,7 +66,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def title
-    "Puerto Rico %d-player game" % [players.size]
+    "Puerto Rico %d-player game -- %s moving" % [players.size, players.current.name]
   end
 end
 

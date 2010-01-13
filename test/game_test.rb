@@ -24,8 +24,10 @@ class GameTest < Test::Unit::TestCase
   end
 
   def test_nice_output_for_ships
-    ships = [[4, 3, Puerto::Handlers::Game::COFFEE], [5, 0, nil], [6, 0, nil]].extend(CargoShipList)
-    assert_equal "3/4(c), 0/5, 0/6", ships.to_s
+    ships = [[4, 3, Puerto::Handlers::Game::COFFEE],
+             [5, 0, nil],
+             [6, 1, Puerto::Handlers::Game::TOBACCO]].extend(CargoShipList)
+    assert_equal "3/4(c), 0/5, 1/6(t)", ships.to_s
   end
 
   3.upto(5) do |i|
@@ -45,6 +47,15 @@ class GameTest < Test::Unit::TestCase
       setup.instance_variable_set(:@players, players)
       game = Puerto::Handlers::Game.new(setup)
       assert_equal({3 => 75, 4 => 100, 5 => 122}[i], game.vps)
+    end
+
+    define_method("test_correct_colonists_for_%dplayer_game" % [i]) do
+      names = (1..i).map(&:to_s)
+      players = Puerto::Player.create(names)
+      setup = Puerto::Handlers::Setup.new
+      setup.instance_variable_set(:@players, players)
+      game = Puerto::Handlers::Game.new(setup)
+      assert_equal({3 => 55, 4 => 75, 5 => 95}[i], game.colonists)
     end
   end
 end
