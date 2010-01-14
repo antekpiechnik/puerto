@@ -91,12 +91,7 @@ class Puerto::Player
 
   def next!
     @current = false
-    if next_player.governor?
-      next_player.send(:cancel_governor!)
-      next_player.next_player.send(:governor!)
-    else
-      next_player.send(:current!)
-    end
+    next_player.send(:current!)
   end
 
   def self.loop_players(players)

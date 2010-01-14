@@ -40,12 +40,25 @@ class Puerto::Core::Game
     players.current == players.governor
   end
 
+  def last_phase?
+    players.current.next_player.governor?
+  end
+
   def round_finished?
     @roles.count { |r| r.nil? } == players.size
   end
 
   def reset_roles
     @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
+  end
+
+  def next
+    players.next!
+    if phase_finished?
+      reset_roles if round_finished?
+      return true
+    end
+    return false
   end
 end
 

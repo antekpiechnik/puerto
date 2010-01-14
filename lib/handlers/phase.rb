@@ -5,32 +5,33 @@ class Puerto::Handlers::Phase < Puerto::Handlers::BaseHandler
   end
 
   def menu_options
-    [
-      ["1", ["Next player", :next]],
-    ]
+    menu = []
+    if @game.last_phase?
+      menu << ["1", ["Finish phase", :next]]
+    else
+      menu << ["1", ["Next player", :next]]
+    end
+    menu
   end
 
   ##
   # @action
   def next
-    @game.players.next!
-    if @game.phase_finished?
-      if @game.round_finished?
-        @game.reset_roles
-      end
+    finished = @game.next
+    if finished
       self.assign_handler(:previous)
     else
-      "Current player: %s" % [@game.players.current.to_s]
+      "Role %s: \nCurrent player: %s" % [@role, @game.players.current.to_s]
     end
   end
 
   ##
   # @action
   def run
-    frame("Phase %s - players %s" % [@role, @game.players.current.to_s])
+    frame("Role %s - players %s" % [@role, @game.players.current.to_s])
   end
 
   def title
-    "Phase %s - players %s" % [@role, @game.players.current.to_s]
+    "Role %s - players %s" % [@role, @game.players.current.to_s]
   end
 end
