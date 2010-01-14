@@ -1,6 +1,6 @@
 require 'test/test_helper'
 
-class PlayerStateTest < Test::Unit::TestCase
+class HandlerPlayerStateTest < Test::Unit::TestCase
   def setup
     @main = Puerto::Handlers::Puerto.new
     @setup = Puerto::Core::Setup.new

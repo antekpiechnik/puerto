@@ -1,6 +1,6 @@
 require 'test/test_helper'
 
-class PuertoTest < Test::Unit::TestCase
+class HandlerPuertoTest < Test::Unit::TestCase
   def setup
     @puerto = Puerto::Handlers::Puerto.new
   end

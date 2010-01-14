@@ -1,6 +1,6 @@
 require 'test/test_helper'
 
-class PlayerStateTest < Test::Unit::TestCase
+class HandlerSetupTest < Test::Unit::TestCase
   def test_doesnt_start_unless_players_set
     p = Puerto::Handlers::Puerto.new
     s = Puerto::Handlers::Setup.new
