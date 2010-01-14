@@ -1,6 +1,12 @@
 class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
+  def self.main
+    @@main
+  end
+
   def initialize
+    @previous_handler = []
     self.assign_handler(self)
+    @@main = self
   end
 
   def handler
@@ -9,10 +15,14 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
 
   ##
   # Overriden because this is the main handler.
-  def assign_handler(new_handler)
-    @handler = new_handler
+  def assign_handler(new_handler, previous_handler = nil)
+    if new_handler == :previous
+      @handler = @previous_handler.pop
+    else
+      @handler = new_handler
+      @previous_handler.push(previous_handler)
+    end
     @first_run = true
-    new_handler.main = self.main
     nil
   end
 
@@ -61,7 +71,7 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   #
   # @action
   def start
-    self.assign_handler(Puerto::Handlers::Setup.new)
+    self.assign_handler(Puerto::Handlers::Setup.new, self)
   end
 
   ##

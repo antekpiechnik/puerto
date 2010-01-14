@@ -17,20 +17,6 @@ require File.join('lib', 'exceptions')
 class Puerto::Handlers::BaseHandler
   include Puerto::OutputHelper
   ##
-  # Main handler setter.
-  #
-  # @return [void]
-  attr_writer :main
-
-  ##
-  # Override so that this method returns reference to the main handler.
-  #
-  # @return [Puerto::Handlers::BaseHandler] main handler
-  def main
-    raise Puerto::AbstractMethodError
-  end
-
-  ##
   # Invoked once after `self` was passed execution by another handler.
   # @return [String] frame's content
   # @action
@@ -49,11 +35,11 @@ class Puerto::Handlers::BaseHandler
   ##
   # Change current handler and pass execuction to it.
   #
-  # @param [Puerto::Handlers::BaseHandler] new_handler new or existing instance
-  #   of handler
+  # @param [Puerto::Handlers::BaseHandler, Symbol] new_handler new or existing
+  #   instance of handler or symbol :previous for going back.
   # @return [nil] returns nil so that we don't print handler
   def assign_handler(new_handler)
-    main.assign_handler(new_handler)
+    Puerto::Handlers::Puerto.main.assign_handler(new_handler, self)
   end
 
   ##
@@ -61,7 +47,7 @@ class Puerto::Handlers::BaseHandler
   #
   # @return [Puerto::Handlers::BaseHandler] current handler
   def handler
-    main.handler
+    Puerto::Handlers::Puerto.main.handler
   end
 
   ##

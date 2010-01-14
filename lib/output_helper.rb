@@ -56,7 +56,7 @@ module Puerto::OutputHelper
   #
   # @return [nil]
   def flash=(msg)
-    self.main.flash = msg
+    Puerto::Handlers::Puerto.main.flash = msg
     nil
   end
 

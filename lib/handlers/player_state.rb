@@ -1,8 +1,6 @@
 class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
-  attr_reader :main, :game
-
-  def initialize(game)
-    @game = game
+  def initialize(players)
+    @players = players
   end
 
   ##
@@ -17,7 +15,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
 
   def menu_options
     options = []
-    game.players.each_with_index do |player, number|
+    @players.each_with_index do |player, number|
       options << [(number + 1).to_s, [player.to_s, :player_state, player]]
     end
     options << ["0", ["Back", :back_to_game]]
@@ -43,7 +41,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   ##
   # @action
   def back_to_game
-    self.assign_handler(game)
+    self.assign_handler(:previous)
   end
 
   def title

@@ -1,6 +1,4 @@
 class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
-  attr_reader :main
-
   def initialize
     @setup = Puerto::Core::Setup.new
   end
@@ -26,7 +24,7 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   ##
   # @action
   def back_to_main
-    self.assign_handler(main)
+    self.assign_handler(:previous)
   end
 
   ##

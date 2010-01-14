@@ -1,6 +1,4 @@
 class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
-  attr_reader :main
-
   def initialize(setup)
     @setup = setup
     @game = Puerto::Core::Game.new(setup)
@@ -24,7 +22,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   ##
   # @action
   def player_stats
-    self.assign_handler(Puerto::Handlers::PlayerState.new(self))
+    self.assign_handler(Puerto::Handlers::PlayerState.new(@setup.players))
   end
 
   ##
@@ -44,7 +42,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   ##
   # @action
   def end_game
-    self.assign_handler(@setup)
+    self.assign_handler(:previous)
   end
 
   def title
