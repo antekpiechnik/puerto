@@ -1,17 +1,17 @@
 class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
-  attr_reader :main, :players
+  attr_reader :main
 
   def initialize
-    @players = []
+    @setup = Puerto::Core::Setup.new
   end
 
   ##
   # @action
   def run
-    if @players.empty?
+    if @setup.players?
       frame("Please set players")
     else
-      player_text(@players)
+      player_text(@setup.players)
     end
   end
 
@@ -32,10 +32,10 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   ##
   # @action
   def start_game
-    if @players.empty?
-      self.flash = "Please set players"
+    if @setup.players?
+      self.assign_handler(Puerto::Handlers::Game.new(@setup))
     else
-      self.assign_handler(Puerto::Handlers::Game.new(self))
+      self.flash = "Please set players"
     end
   end
 
@@ -58,8 +58,8 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
         to_go += 1
       end
     end
-    @players = Puerto::Player.create(names)
-    player_text(@players)
+    @setup.players = Puerto::Player.create(names)
+    player_text(@setup.players)
   end
 
   def title
