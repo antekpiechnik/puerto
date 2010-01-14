@@ -24,7 +24,7 @@ class Puerto::Core::Game
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Building.available_buildings.dup
-    @roles = [PROSPECTOR, CAPTAIN, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
+    @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
   end
 
   def players
@@ -34,7 +34,18 @@ class Puerto::Core::Game
   def choose_role(role)
     i = @roles.index(role)
     @roles[i] = nil
-    @roles.compact!
+  end
+
+  def phase_finished?
+    players.current == players.governor
+  end
+
+  def round_finished?
+    @roles.count { |r| r.nil? } == players.size
+  end
+
+  def reset_roles
+    @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
   end
 end
 
