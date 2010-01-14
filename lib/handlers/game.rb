@@ -36,13 +36,13 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   # @action
   def game_stats
     out = []
-    out << ["Governor", players.governor.to_s]
-    out << ["Trading house", @trading_house.to_s]
-    out << ["VPs", @vps]
+    out << ["Governor", @game.players.governor.to_s]
+    out << ["Trading house", @game.trading_house.to_s]
+    out << ["VPs", @game.vps]
     out << ["Colonists", @colonists]
-    out << ["Available buildings", @buildings.map { |n, a| "%s = %d" % [n, a] }.join(", ")]
-    out << ["Goods", @goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
-    out << ["Cargo ships", @cargo_ships.to_s]
+    out << ["Available buildings", @game.buildings.map { |n, a| "%s = %d" % [n, a] }.join(", ")]
+    out << ["Goods", @game.goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
+    out << ["Cargo ships", @game.cargo_ships.to_s]
     tabular_output(out)
   end
 
