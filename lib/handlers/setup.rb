@@ -17,14 +17,8 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
     [
       ["1", ["Set players", :set_players]],
       ["2", ["Start game", :start_game]],
-      ["0", ["Back to main", :back_to_main]],
+      ["0", ["Back to main", :previous]],
     ]
-  end
-
-  ##
-  # @action
-  def back_to_main
-    self.assign_handler(:previous)
   end
 
   ##

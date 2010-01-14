@@ -1,11 +1,19 @@
 class Puerto::Core::Game
-  attr_reader :vps, :cargo_ships, :colonists
+  attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house, :buildings, :goods, :cargo_ships
 
-  CORN = "k"
-  INDIGO = "i"
-  SUGAR = "s"
+  CORN    = "k"
+  INDIGO  = "i"
+  SUGAR   = "s"
   TOBACCO = "t"
-  COFFEE = "c"
+  COFFEE  = "c"
+
+  SETTLER    = "Settler"
+  MAYOR      = "Mayor"
+  BUILDER    = "Builder"
+  CRAFTSMAN  = "Craftsman"
+  TRADER     = "Trader"
+  CAPTAIN    = "Captain"
+  PROSPECTOR = "Prospector"
 
   def initialize(setup)
     @setup = setup
@@ -16,10 +24,17 @@ class Puerto::Core::Game
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Building.available_buildings.dup
+    @roles = [PROSPECTOR, CAPTAIN, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
   end
 
   def players
     @setup.players
+  end
+
+  def choose_role(role)
+    i = @roles.index(role)
+    @roles[i] = nil
+    @roles.compact!
   end
 end
 

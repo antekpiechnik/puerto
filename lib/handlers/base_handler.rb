@@ -89,4 +89,10 @@ class Puerto::Handlers::BaseHandler
   def menu_options
     raise Puerto::AbstractMethodError
   end
+
+  ##
+  # @action
+  def previous
+    self.assign_handler(:previous)
+  end
 end

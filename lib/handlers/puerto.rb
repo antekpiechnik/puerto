@@ -87,7 +87,7 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
   end
 
   def menu(label)
-    frame(@handler.menu_options.map { |n, s| "%d. %s" % [n, s[0]] }.join("   |   "), label)
+    frame(@handler.menu_options.map { |n, s| "%s. %s" % [n.to_s, s[0]] }.join("   |   "), label)
   end
 
   def redraw_template
