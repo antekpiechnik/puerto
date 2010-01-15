@@ -25,6 +25,7 @@ class Puerto::Core::Game
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Building.available_buildings.dup
     @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
+    @finishing = false
   end
 
   def players
@@ -44,9 +45,13 @@ class Puerto::Core::Game
     players.current.next_player.governor?
   end
 
+  def last_round?
+    @finishing
+  end
+
   def award_vps(player, amount)
-    unless amount <= 0
-      @vps -= 10
+    unless amount <= 0 or @vps < amount
+      @vps -= amount
       player.add_vps(amount)
     end
   end
@@ -59,8 +64,16 @@ class Puerto::Core::Game
     @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
   end
 
+  def end_conditions_met?
+    if @vps == 0
+      return true
+    end
+    return false
+  end
+
   def next
     players.next!
+    @finishing = true unless !end_conditions_met?
     if phase_finished?
       reset_roles if round_finished?
       return true

@@ -90,6 +90,14 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 0, @players[0].vps
   end
 
+  def test_dont_award_vps_if_not_enough_left
+    assert_equal 75, @game.vps
+    assert_equal 0, @players[0].vps
+    @game.award_vps(@players[0], 76)
+    assert_equal 0, @players[0].vps
+    assert_equal 75, @game.vps
+  end
+
   def test_adding_vps_decreases_games_vps
     assert_equal 0, @players[0].vps
     assert_equal 75, @game.vps
@@ -102,5 +110,13 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 75, @game.vps
     @game.award_vps(@players[0], -5)
     assert_equal 75, @game.vps
+  end
+
+  def test_game_will_finish_when_no_vps_left
+    assert_equal 75, @game.vps
+    @game.award_vps(@players[0], 75)
+    assert_equal 0, @game.vps
+    @game.next
+    assert @game.last_round?
   end
 end
