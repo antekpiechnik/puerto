@@ -62,6 +62,22 @@ class PlayerTest < Test::Unit::TestCase
     assert p2.governor?
   end
 
+  def test_hasnt_acted_as_governor_on_start
+    players = Puerto::Player.create(["a", "b", "c"])
+    p1, p2, p3 = players
+    assert p1.governor?
+    assert ! p1.acted_as_governor
+  end
+
+  def test_has_acted_as_governor_before_next_player
+    players = Puerto::Player.create(["a", "b", "c"])
+    p1, p2, p3 = players
+    assert ! p1.acted_as_governor
+    players.next!
+    assert p1.acted_as_governor
+  end
+
+
   def test_becoming_governor_cancels_previous_current
     players = Puerto::Player.create(["a", "b", "c"])
     p1, p2, p3 = players
