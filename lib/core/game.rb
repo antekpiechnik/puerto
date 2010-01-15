@@ -37,7 +37,7 @@ class Puerto::Core::Game
   end
 
   def phase_finished?
-    players.current == players.governor
+    players.current.acted_as_governor and players.current.next_player == players.governor
   end
 
   def last_phase?
@@ -57,6 +57,7 @@ class Puerto::Core::Game
     if phase_finished?
       reset_roles if round_finished?
       return true
+    else
     end
     return false
   end

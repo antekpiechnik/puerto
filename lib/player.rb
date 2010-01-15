@@ -5,7 +5,7 @@
 # Please note that the `players` Array returned by {create} is extended by
 # {Puerto::PlayerList} providing useful methods.
 class Puerto::Player
-  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods
+  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods, :acted_as_governor
   attr_accessor :next_player, :previous_player
 
   def initialize(name)
@@ -16,6 +16,7 @@ class Puerto::Player
     @doubloons = 0
     @goods = []
     @current = @governor = false
+    @acted_as_governor = false
   end
 
   ##
@@ -79,6 +80,7 @@ class Puerto::Player
   private
   def governor!
     @current = @governor = true
+    @acted_as_governor = false
   end
 
   def cancel_governor!
@@ -86,7 +88,7 @@ class Puerto::Player
   end
 
   def current!
-    if governor?
+    if governor? and @acted_as_governor
       @governor = false
       next_player.send(:governor!)
     end
@@ -103,6 +105,11 @@ class Puerto::Player
   end
 
   def next!
+    if governor?
+      if !@acted_as_governor
+        @acted_as_governor = true
+      end
+    end
     @current = false
     next_player.send(:current!)
   end
