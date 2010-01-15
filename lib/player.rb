@@ -18,17 +18,26 @@ class Puerto::Player
     @current = @governor = false
   end
 
+  ##
+  # A method for validating the uniqueness of a player being created
+  #
+  # @return [Boolean]
   def self.validates_name_uniq?(names, new_name)
     new_name != "" and !names.include?(new_name)
   end
 
+  ##
+  #
+  # A method for validating the number of players
+  #
+  # @return [Boolean]
   def self.validates_player_no?(number)
     (3..5).include?(number)
   end
 
   ##
-  # This method is the only way to create valid player list. It sets current
-  # player, governor, links next/previous players and extends the list by useful
+  # This method is the only way to create a valid player list. It sets current
+  # the player, governor, links next/previous players and extends the list by useful
   # methods like returning current player.
   #
   # @return [Array extended by Puerto::PlayerList]
@@ -77,6 +86,10 @@ class Puerto::Player
   end
 
   def current!
+    if governor?
+      @governor = false
+      next_player.send(:governor!)
+    end
     @current = true
   end
 
