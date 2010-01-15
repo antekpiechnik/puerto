@@ -64,6 +64,10 @@ class Puerto::Core::Game
     @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
   end
 
+  def winning_player
+    players.each.max { |a,b| a.vps <=> b.vps }
+  end
+
   def end_conditions_met?
     if @vps == 0
       return true

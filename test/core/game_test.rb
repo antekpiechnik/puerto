@@ -119,4 +119,12 @@ class CoreGameTest < Test::Unit::TestCase
     @game.next
     assert @game.last_round?
   end
+
+  def test_player_with_highest_vps_is_winning
+    @game.award_vps(@players[0], 40)
+    @game.award_vps(@players[1], 30)
+    @game.award_vps(@players[2], 5)
+    @game.next
+    assert_same @game.winning_player, @players[0]
+  end
 end
