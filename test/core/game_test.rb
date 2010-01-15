@@ -3,7 +3,7 @@ require 'test/test_helper'
 class CoreGameTest < Test::Unit::TestCase
   def setup
     @setup = Puerto::Core::Setup.new
-    @setup.players = Puerto::Player.create(["Michal", "Antek", "Jan"])
+    @players = @setup.players = Puerto::Player.create(["Michal", "Antek", "Jan"])
     @michal, @antek, @jan = @setup.players
     @game = Puerto::Core::Game.new(@setup)
   end
@@ -76,5 +76,31 @@ class CoreGameTest < Test::Unit::TestCase
       3.times { @game.next }
     end
     assert_not_nil @game.roles[0]
+  end
+
+  def test_adding_vps_to_player
+    assert_equal 0, @players[0].vps
+    @game.award_vps(@players[0], 2)
+    assert_equal 2, @players[0].vps
+  end
+
+  def test_adding_negative_vps_fails
+    assert_equal 0, @players[0].vps
+    @game.award_vps(@players[0], -2)
+    assert_equal 0, @players[0].vps
+  end
+
+  def test_adding_vps_decreases_games_vps
+    assert_equal 0, @players[0].vps
+    assert_equal 75, @game.vps
+    @game.award_vps(@players[0], 10)
+    assert_equal 10, @players[0].vps
+    assert_equal 65, @game.vps
+  end
+
+  def test_adding_negative_vps_wont_decrease_games_vps
+    assert_equal 75, @game.vps
+    @game.award_vps(@players[0], -5)
+    assert_equal 75, @game.vps
   end
 end

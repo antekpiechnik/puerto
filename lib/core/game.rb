@@ -44,6 +44,13 @@ class Puerto::Core::Game
     players.current.next_player.governor?
   end
 
+  def award_vps(player, amount)
+    unless amount <= 0
+      @vps -= 10
+      player.add_vps(amount)
+    end
+  end
+
   def round_finished?
     @roles.count { |r| r.nil? } == players.size
   end
