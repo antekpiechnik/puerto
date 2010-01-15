@@ -69,14 +69,6 @@ class Puerto::Player
     end
   end
 
-  def add_doubloons(amount)
-    @doubloons += amount
-  end
-
-  def add_vps(amount)
-    @vps += amount
-  end
-
   private
   def governor!
     @current = @governor = true
@@ -96,6 +88,15 @@ class Puerto::Player
   end
 
   public
+
+  def add_doubloons(amount)
+    @doubloons += amount unless amount <= 0
+  end
+
+  def add_vps(amount)
+    @vps += amount unless amount <= 0
+  end
+
   def current?
     @current
   end

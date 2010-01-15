@@ -57,7 +57,6 @@ class Puerto::Core::Game
     if phase_finished?
       reset_roles if round_finished?
       return true
-    else
     end
     return false
   end

@@ -58,6 +58,11 @@ class CoreGameTest < Test::Unit::TestCase
     end
   end
 
+  def test_three_moves_end_the_phase
+    2.times { assert !@game.next }
+    assert @game.next
+  end
+
   def test_choosing_the_role_makes_it_unavailable
     role = @game.roles[1]
     assert_not_nil role
@@ -65,10 +70,10 @@ class CoreGameTest < Test::Unit::TestCase
     assert_nil @game.roles[1]
   end
 
-  def test_finishing_phase_resets_the_roles
-    (0..2).each do |role_index|
+  def test_finishing_round_resets_the_roles
+    3.times do |role_index|
       @game.choose_role(@game.roles[role_index])
-      @game.next
+      3.times { @game.next }
     end
     assert_not_nil @game.roles[0]
   end
