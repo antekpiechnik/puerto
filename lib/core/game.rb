@@ -73,8 +73,15 @@ class Puerto::Core::Game
     @roles.taken_count == players.size
   end
 
-  def winning_player
-    players.each.max { |a,b| a.vps <=> b.vps }
+  def winner
+    sorted = players.sort do |a, b|
+      result = b.vps <=> a.vps
+      if result == 0
+        result = b.doubloons <=> a.doubloons
+      end
+      result
+    end
+    sorted.first
   end
 
   def next

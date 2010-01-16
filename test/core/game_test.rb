@@ -130,11 +130,27 @@ class CoreGameTest < Test::Unit::TestCase
     assert @game.last_phase?
   end
 
-  def test_player_with_highest_vps_is_winning
+  def test_player_with_highest_vps_wins
     @game.award_vps(@players[0], 40)
     @game.award_vps(@players[1], 30)
     @game.award_vps(@players[2], 5)
     @game.next
-    assert_same @game.winning_player, @players[0]
+    assert_same @game.winner, @players[0]
+  end
+
+  def test_if_same_amount_of_vps_then_doubloons_decides_winner
+    @game.award_vps(@antek, 50)
+    @game.award_vps(@michal, 50)
+    @antek.add_doubloons(4)
+    @michal.add_doubloons(3)
+    assert_equal @antek, @game.winner
+  end
+
+  def test_even_if_one_has_more_doubloons_vps_still_decide
+    @game.award_vps(@antek, 31)
+    @game.award_vps(@michal, 30)
+    @antek.add_doubloons(1)
+    @michal.add_doubloons(40)
+    assert_equal @antek, @game.winner
   end
 end
