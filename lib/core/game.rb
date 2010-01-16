@@ -36,14 +36,6 @@ class Puerto::Core::Game
     @roles.choose(role)
   end
 
-  def phase_finished?
-    players.phase_finished?
-  end
-
-  def last_player_in_phase?
-    players.current.next_player.governor?
-  end
-
   ##
   # Boolean indicating that this is the last phase of game (ending conditions
   # are met).
@@ -67,6 +59,10 @@ class Puerto::Core::Game
       @finishing ||= @vps <= 0
       player.add_vps(amount)
     end
+  end
+
+  def phase_finished?
+    players.phase_finished?
   end
 
   def round_finished?

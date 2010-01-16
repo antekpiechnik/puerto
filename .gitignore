@@ -2,3 +2,5 @@ doc/
 .yardoc/
 *.log
 *.swp
+coverage/
+coverage.data
