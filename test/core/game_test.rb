@@ -68,7 +68,7 @@ class CoreGameTest < Test::Unit::TestCase
   end
 
   def text_next_returns_true_if_phase_finished
-    assert @game.players.count == 3
+    assert @players.count == 3
     8.times { assert ! @game.next }
     assert @game.next
   end
@@ -152,5 +152,23 @@ class CoreGameTest < Test::Unit::TestCase
     @antek.add_doubloons(1)
     @michal.add_doubloons(40)
     assert_equal @antek, @game.winner
+  end
+
+  def test_each_valid_yields_only_available_roles
+    @game.choose_role(Puerto::Core::Game::SETTLER)
+    @game.choose_role(Puerto::Core::Game::BUILDER)
+    counter = 0
+    @game.roles.each { counter += 1 }
+    assert_equal 6, counter
+    counter = 0
+    players = @game.roles.each_valid { counter += 1 }
+    assert_equal 4, counter
+  end
+
+  def test_each_valid_yields_nice_role_description
+    @game.roles[0][2] = 3
+    descs = []
+    @game.roles.each_valid { |desc, _, _| descs << desc }
+    assert_equal "%s (3d)" % [@game.roles[0][0]], descs.first
   end
 end
