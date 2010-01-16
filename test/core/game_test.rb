@@ -22,7 +22,7 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal goods.size, goods.uniq.size
   end
 
-  def test_nice_output_for_ships
+  def test_to_s_method_for_ships
     ships = [[4, 3, Puerto::Core::Game::COFFEE],
              [5, 0, nil],
              [6, 1, Puerto::Core::Game::TOBACCO]].extend(CargoShipList)
@@ -59,8 +59,24 @@ class CoreGameTest < Test::Unit::TestCase
   end
 
   def test_three_moves_end_the_phase
-    2.times { assert !@game.next }
+    2.times { assert ! @game.next }
     assert @game.next
+  end
+
+  def test_three_moves_change_governor
+    assert @players[0].governor?
+    [1,2].each { |index| assert ! @players[index].governor? }
+    3.times { @game.next }
+    assert @players[1].governor?
+  end
+
+  def test_two_moves_change_current
+    assert @players[0].current?
+    2.times { @game.next }
+    assert @players[2].current?
+    2.times { @game.next }
+    assert ! @players[0].current?
+    assert @players[1].current?
   end
 
   def test_choosing_the_role_makes_it_unavailable

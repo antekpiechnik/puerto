@@ -23,7 +23,6 @@ class PlayerTest < Test::Unit::TestCase
   end
 
   def test_creates_three_named_players
-    #@players = Puerto::Player::create(["Joe", "John", "Jack"])
     assert_equal 3, @players.length
     assert_equal "Joe", @players[0].name
   end
@@ -74,7 +73,6 @@ class PlayerTest < Test::Unit::TestCase
     @players.next!
     assert p1.acted_as_governor
   end
-
 
   def test_becoming_governor_cancels_previous_current
     p1, p2, p3 = @players
