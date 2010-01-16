@@ -12,9 +12,8 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
 
   def menu_options
     menu = []
-    @game.roles.each_with_index do |role, i|
-      next if role.nil?
-      menu << [(i + 97).chr, [role, :set_role, role]]
+    @game.roles.each_valid do |role_text, role, i|
+      menu << [(i + 97).chr, [role_text, :set_role, role]]
     end
     menu << ["1", ["Show player stats", :player_stats]]
     menu << ["2", ["Show game stats", :game_stats]]

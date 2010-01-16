@@ -24,8 +24,8 @@ class Puerto::Core::Game
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Building.available_buildings.dup
-    @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
     @finishing = false
+    @roles = RoleList.create(players.size)
   end
 
   def players
@@ -33,53 +33,54 @@ class Puerto::Core::Game
   end
 
   def choose_role(role)
-    i = @roles.index(role)
-    @roles[i] = nil
+    @roles.choose(role)
   end
 
   def phase_finished?
-    players.current.acted_as_governor and players.current.next_player == players.governor
+    players.phase_finished?
   end
 
-  def last_phase?
+  def last_player_in_phase?
     players.current.next_player.governor?
   end
 
-  def last_round?
+  ##
+  # Boolean indicating that this is the last phase of game (ending conditions
+  # are met).
+  #
+  # @return [Boolean] true if game finishes at the end of current phase
+  def last_phase?
     @finishing
   end
 
+  ##
+  # Gives `amount` VPs to `player`. The game can finish with negative VPs, it's
+  # only a matter of them being `<= 0` (during captain phase players take VPs
+  # even if they physically finished).
+  #
+  # @param [Puerto::Player] player awarded
+  # @param [Fixnum] amount amount of VPs (only positive)
+  # @return [nil]
   def award_vps(player, amount)
-    unless amount <= 0 or @vps < amount
+    unless amount <= 0
       @vps -= amount
+      @finishing ||= @vps <= 0
       player.add_vps(amount)
     end
   end
 
   def round_finished?
-    @roles.count { |r| r.nil? } == players.size
-  end
-
-  def reset_roles
-    @roles = [SETTLER, MAYOR, BUILDER, CRAFTSMAN, TRADER, CAPTAIN, PROSPECTOR]
+    @roles.taken_count == players.size
   end
 
   def winning_player
     players.each.max { |a,b| a.vps <=> b.vps }
   end
 
-  def end_conditions_met?
-    if @vps == 0
-      return true
-    end
-    return false
-  end
-
   def next
     players.next!
-    @finishing = true unless !end_conditions_met?
     if phase_finished?
-      reset_roles if round_finished?
+      roles.reset! if round_finished?
       return true
     end
     return false
@@ -97,5 +98,47 @@ module CargoShipList
       end
     end
     ret.join(", ")
+  end
+end
+
+module RoleList
+  def self.create(players_no)
+    k = Puerto::Core::Game
+    roles = [k::SETTLER, k::MAYOR, k::BUILDER, k::CRAFTSMAN, k::TRADER, k::CAPTAIN]
+    roles << k::PROSPECTOR if players_no >= 4
+    roles << k::PROSPECTOR if players_no >= 5
+    roles.map! { |e| [e, true, 0] }
+    roles.extend(RoleList)
+  end
+
+  def each_valid
+    each_with_index do |e, i|
+      next if e[1] == false
+      role = e[0].dup
+      if e[2] > 0
+        role = "%s (%dd)" % [e[0], e[2]]
+      else
+        role = e[0]
+      end
+      yield role, e[0], i
+    end
+  end
+
+  def taken_count
+    count { |e| e[1] }
+  end
+
+  def reset!
+    each do |role|
+      role[2] += 1 if role[1]
+      role[1] = true
+    end
+  end
+
+  def choose(role)
+    i = self.index(self.find { |e| e[0] == role })
+    raise ArgumentError.new("Role %p cannot be chosen" % [role]) unless i
+    raise ArgumentError.new("Role %p already chosen" % [role]) if self[i][1] == false
+    self[i][1] = false
   end
 end

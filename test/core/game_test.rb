@@ -56,42 +56,36 @@ class CoreGameTest < Test::Unit::TestCase
       game = Puerto::Core::Game.new(setup)
       assert_equal({3 => 55, 4 => 75, 5 => 95}[i], game.colonists)
     end
+
+    define_method("test_correct_roles_for_%dplayer_game" % [i]) do
+      names = (1..i).map(&:to_s)
+      players = Puerto::Player.create(names)
+      setup = Puerto::Core::Setup.new
+      setup.players = players
+      game = Puerto::Core::Game.new(setup)
+      assert_equal(i + 3, game.roles.size)
+    end
   end
 
-  def test_three_moves_end_the_phase
-    2.times { assert ! @game.next }
+  def text_next_returns_true_if_phase_finished
+    assert @game.players.count == 3
+    8.times { assert ! @game.next }
     assert @game.next
   end
 
-  def test_three_moves_change_governor
-    assert @players[0].governor?
-    [1,2].each { |index| assert ! @players[index].governor? }
-    3.times { @game.next }
-    assert @players[1].governor?
-  end
-
-  def test_two_moves_change_current
-    assert @players[0].current?
-    2.times { @game.next }
-    assert @players[2].current?
-    2.times { @game.next }
-    assert ! @players[0].current?
-    assert @players[1].current?
-  end
-
   def test_choosing_the_role_makes_it_unavailable
-    role = @game.roles[1]
+    role = @game.roles[1][0]
     assert_not_nil role
     @game.choose_role(role)
-    assert_nil @game.roles[1]
+    assert_equal false, @game.roles[1][1]
   end
 
   def test_finishing_round_resets_the_roles
     3.times do |role_index|
-      @game.choose_role(@game.roles[role_index])
+      @game.choose_role(@game.roles[role_index][0])
       3.times { @game.next }
     end
-    assert_not_nil @game.roles[0]
+    assert_equal true, @game.roles[0][1]
   end
 
   def test_adding_vps_to_player
@@ -106,12 +100,12 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 0, @players[0].vps
   end
 
-  def test_dont_award_vps_if_not_enough_left
+  def test_do_award_vps_even_if_not_enough_left
     assert_equal 75, @game.vps
     assert_equal 0, @players[0].vps
     @game.award_vps(@players[0], 76)
-    assert_equal 0, @players[0].vps
-    assert_equal 75, @game.vps
+    assert_equal 76, @players[0].vps
+    assert_equal -1, @game.vps
   end
 
   def test_adding_vps_decreases_games_vps
@@ -133,7 +127,7 @@ class CoreGameTest < Test::Unit::TestCase
     @game.award_vps(@players[0], 75)
     assert_equal 0, @game.vps
     @game.next
-    assert @game.last_round?
+    assert @game.last_phase?
   end
 
   def test_player_with_highest_vps_is_winning

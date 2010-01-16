@@ -6,7 +6,7 @@ class Puerto::Handlers::Phase < Puerto::Handlers::BaseHandler
 
   def menu_options
     menu = []
-    if @game.last_phase?
+    if @game.last_player_in_phase?
       menu << ["1", ["Finish phase", :next]]
     else
       menu << ["1", ["Next player", :next]]

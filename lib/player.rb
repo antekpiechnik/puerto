@@ -5,7 +5,7 @@
 # Please note that the `players` Array returned by {create} is extended by
 # {Puerto::PlayerList} providing useful methods.
 class Puerto::Player
-  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods, :acted_as_governor
+  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods
   attr_accessor :next_player, :previous_player
 
   def initialize(name)
@@ -16,7 +16,6 @@ class Puerto::Player
     @doubloons = 0
     @goods = []
     @current = @governor = false
-    @acted_as_governor = false
   end
 
   ##
@@ -45,13 +44,11 @@ class Puerto::Player
   def self.create(names)
     if self.validates_player_no?(names.length)
       players = names.map { |name| self.new(name) }
-      self.loop_players(players)
       players.extend(Puerto::PlayerList)
-      players.first.send(:governor!)
-      players
     else
-      []
+      players = []
     end
+    players
   end
 
   ##
@@ -71,8 +68,7 @@ class Puerto::Player
 
   private
   def governor!
-    @current = @governor = true
-    @acted_as_governor = false
+    @governor = true
   end
 
   def cancel_governor!
@@ -80,15 +76,14 @@ class Puerto::Player
   end
 
   def current!
-    if governor? and @acted_as_governor
-      @governor = false
-      next_player.send(:governor!)
-    end
     @current = true
   end
 
-  public
+  def cancel_current!
+    @current = false
+  end
 
+  public
   def add_doubloons(amount)
     @doubloons += amount unless amount <= 0
   end
@@ -103,25 +98,6 @@ class Puerto::Player
 
   def governor?
     @governor
-  end
-
-  def next!
-    if governor?
-      if !@acted_as_governor
-        @acted_as_governor = true
-      end
-    end
-    @current = false
-    next_player.send(:current!)
-  end
-
-  def self.loop_players(players)
-    (players.length - 1).times do |i|
-      players[i].next_player = players[i + 1]
-      players[i + 1].previous_player = players[i]
-    end
-    players.last.next_player = players.first
-    players.first.previous_player = players.last
   end
 end
 
@@ -138,12 +114,32 @@ end
 #   players.current.name #=> "b"
 #   players.governor.name #=> "a"
 module Puerto::PlayerList
+  def self.extended(players)
+    players.instance_variable_set(:@governor_count, 1)
+    self.loop_players(players)
+    players.first.send(:governor!)
+    players.first.send(:current!)
+  end
+
   ##
   # Switches to next player. Handles changing governor also (if needed)
   #
   # @return [void]
   def next!
-    current.next!
+    now = current
+    if @governor_count % (count ** 2) == 0
+      gov = governor
+      gov.next_player.send(:current!)
+      gov.next_player.send(:governor!)
+      gov.send(:cancel_governor!)
+      @governor_count = 0
+    elsif @governor_count % count == 0
+      now.next_player.next_player.send(:current!)
+    else
+      now.next_player.send(:current!)
+    end
+    now.send(:cancel_current!)
+    @governor_count += 1
   end
 
   ##
@@ -160,5 +156,18 @@ module Puerto::PlayerList
   # @return [Puerto::Player] governor player
   def governor
     find { |p| p.governor? }
+  end
+
+  def self.loop_players(players)
+    (players.length - 1).times do |i|
+      players[i].next_player = players[i + 1]
+      players[i + 1].previous_player = players[i]
+    end
+    players.last.next_player = players.first
+    players.first.previous_player = players.last
+  end
+
+  def phase_finished?
+    @governor_count == 1
   end
 end

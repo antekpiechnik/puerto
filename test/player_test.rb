@@ -53,30 +53,25 @@ class PlayerTest < Test::Unit::TestCase
     assert ! p3.governor?
   end
 
+  def test_first_player_becomes_current
+    p1, p2, p3 = @players
+    assert p1.current?
+    assert ! p2.current?
+    assert ! p3.current?
+  end
+
   def test_if_last_player_finishes_governor_switches
     p1, p2, p3 = @players
     assert p1.governor?
-    3.times { @players.next! }
+    9.times { @players.next! }
     assert ! p1.governor?
     assert p2.governor?
+    assert ! p3.governor?
   end
 
-  def test_hasnt_acted_as_governor_on_start
+  def test_becoming_current_cancels_previous_current
     p1, p2, p3 = @players
-    assert p1.governor?
-    assert ! p1.acted_as_governor
-  end
-
-  def test_has_acted_as_governor_before_next_player
-    p1, p2, p3 = @players
-    assert ! p1.acted_as_governor
     @players.next!
-    assert p1.acted_as_governor
-  end
-
-  def test_becoming_governor_cancels_previous_current
-    p1, p2, p3 = @players
-    p1.next!
     assert ! p1.current?
     assert p2.current?
   end
