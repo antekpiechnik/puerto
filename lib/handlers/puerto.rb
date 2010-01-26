@@ -57,11 +57,11 @@ class Puerto::Handlers::Puerto < Puerto::Handlers::BaseHandler
         @_out = @handler.run
         @first_run = false
       end
-      redraw_template
-      input = read_input
+      self.redraw_template
+      input = self.read_input
       unless input.nil?
         out = @handler.handle(input)
-        @_out = frame(out.to_s, @handler.title) if out
+        @_out = self.frame(out.to_s, @handler.title) if out
       end
     end while @main_loop
   end

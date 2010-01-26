@@ -115,7 +115,6 @@ end
 #   players.governor.name #=> "a"
 module Puerto::PlayerList
   def self.extended(players)
-    players.instance_variable_set(:@governor_count, 1)
     self.loop_players(players)
     players.first.send(:governor!)
     players.first.send(:current!)
@@ -127,6 +126,7 @@ module Puerto::PlayerList
   # @return [void]
   def next!
     now = current
+    @governor_count ||= 1
     if @governor_count % (count ** 2) == 0
       gov = governor
       gov.next_player.send(:current!)
@@ -169,5 +169,9 @@ module Puerto::PlayerList
 
   def phase_finished?
     @governor_count == 1
+  end
+
+  def round_finished?
+    @governor_count and (@governor_count % size == 0)
   end
 end

@@ -32,8 +32,16 @@ class Puerto::Core::Game
     @setup.players
   end
 
+  def current_player
+    players.current
+  end
+
   def choose_role(role)
-    @roles.choose(role)
+    roles.choose(role)
+  end
+
+  def next
+    players.next!
   end
 
   ##
@@ -61,12 +69,12 @@ class Puerto::Core::Game
     end
   end
 
-  def phase_finished?
-    players.phase_finished?
+  def award_doubloons(player, amount)
+    player.add_doubloons(amount)
   end
 
-  def round_finished?
-    @roles.taken_count == players.size
+  def phase_finished?
+    players.phase_finished?
   end
 
   def winner
@@ -78,15 +86,6 @@ class Puerto::Core::Game
       result
     end
     sorted.first
-  end
-
-  def next
-    players.next!
-    if phase_finished?
-      roles.reset! if round_finished?
-      return true
-    end
-    return false
   end
 end
 
@@ -143,5 +142,8 @@ module RoleList
     raise ArgumentError.new("Role %p cannot be chosen" % [role]) unless i
     raise ArgumentError.new("Role %p already chosen" % [role]) if self[i][1] == false
     self[i][1] = false
+    doubloons = self[i][2]
+    self[i][2] = 0
+    doubloons
   end
 end

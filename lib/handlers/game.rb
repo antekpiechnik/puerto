@@ -28,7 +28,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def set_role(role)
-    self.assign_handler(Puerto::Handlers::Phase.new(@game, role))
+    self.assign_handler(Puerto::Handlers::Round.new(@game, role))
   end
 
   ##

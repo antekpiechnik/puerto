@@ -24,6 +24,11 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   ##
   # @action
   def start_game
+    # default players set
+    unless @setup.players?
+      @setup.players = Puerto::Player.create(["Michal", "Tomasz", "Antek", "Jan"])
+    end
+
     if @setup.players?
       self.assign_handler(Puerto::Handlers::Game.new(@setup))
     else

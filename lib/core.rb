@@ -1,6 +1,6 @@
 module Puerto::Core
 end
 
-['game', 'setup'].each do |mod|
+['game', 'setup', 'round'].each do |mod|
   require File.join('lib', 'core', mod)
 end

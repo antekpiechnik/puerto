@@ -95,4 +95,8 @@ class Puerto::Handlers::BaseHandler
   def previous
     self.assign_handler(:previous)
   end
+
+  def inspect
+    "<%s:0x%x>" % [self.class.name, self.object_id]
+  end
 end
