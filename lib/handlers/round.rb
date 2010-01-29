@@ -4,6 +4,7 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
     @game.roles.choose(role)
     if role == Puerto::Core::Game::PROSPECTOR
       @moves = 1
+      @game.award_doubloons(@game.current_player, 1)
     else
       @moves = @game.players.size
     end
