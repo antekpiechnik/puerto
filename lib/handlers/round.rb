@@ -1,13 +1,9 @@
 class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
+  attr_reader :round
+
   def initialize(game, role)
-    @game, @role = game, role
-    @game.roles.choose(role)
-    if role == Puerto::Core::Game::PROSPECTOR
-      @moves = 1
-      @game.award_doubloons(@game.current_player, 1)
-    else
-      @moves = @game.players.size
-    end
+    @game = game
+    @round = Puerto::Core::Round.new(game, role)
   end
 
   def menu_options
@@ -19,12 +15,8 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
   ##
   # @action
   def next
-    @game.next
-    if @game.phase_finished?
-      @game.roles.reset!
-    end
-    @moves -= 1
-    if @moves == 0
+    round.next
+    if round.finished?
       self.assign_handler(:previous)
     else
       "Role %s: \nCurrent player: %s" % [@role, @game.players.current.to_s]
@@ -38,6 +30,6 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
   end
 
   def title
-    "Role %s : player %s" % [@role, @game.players.current.to_s]
+    "Role %s : player %s" % [@round.role, @round.game.players.current.to_s]
   end
 end

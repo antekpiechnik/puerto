@@ -80,10 +80,11 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal false, @game.roles[1][1]
   end
 
-  def test_finishing_round_resets_the_roles
-    3.times do |role_index|
-      @game.choose_role(@game.roles[role_index][0])
-      3.times { @game.next }
+  def test_finishing_phase_resets_the_roles
+    players_no = @players.size
+    players_no.times do |role_index|
+      round = Puerto::Core::Round.new(@game, @game.roles[role_index][0])
+      players_no.times { round.next }
     end
     assert_equal true, @game.roles[0][1]
   end
@@ -170,5 +171,11 @@ class CoreGameTest < Test::Unit::TestCase
     descs = []
     @game.roles.each_valid { |desc, _, _| descs << desc }
     assert_equal "%s (3d)" % [@game.roles[0][0]], descs.first
+  end
+
+  def test_taken_count_works
+    assert_equal 0, @game.roles.taken_count
+    @game.roles.choose(Puerto::Core::Game::MAYOR)
+    assert_equal 1, @game.roles.taken_count
   end
 end

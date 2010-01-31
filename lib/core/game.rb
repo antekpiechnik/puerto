@@ -127,7 +127,7 @@ module RoleList
   end
 
   def taken_count
-    count { |e| e[1] }
+    count { |e| ! e[1] }
   end
 
   def reset!
