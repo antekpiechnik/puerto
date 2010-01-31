@@ -5,9 +5,6 @@ class Puerto::Core::Round
     @game, @role = game, role
     @moves = @game.players.size
     @game.choose_role(@role)
-    if role == Puerto::Core::Game::PROSPECTOR
-      @moves = 1
-    end
   end
 
   def finished?
