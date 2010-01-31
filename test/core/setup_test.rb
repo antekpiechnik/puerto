@@ -6,7 +6,7 @@ class CoreSetupTest < Test::Unit::TestCase
     @players = Puerto::Player.create(["a", "b", "c"])
   end
 
-  def test_players?_returns_true_if_players_set
+  def test_players_returns_true_if_players_set
     assert ! @setup.players?
     @setup.players = @players
     assert @setup.players?

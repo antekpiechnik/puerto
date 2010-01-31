@@ -166,12 +166,4 @@ module Puerto::PlayerList
     players.last.next_player = players.first
     players.first.previous_player = players.last
   end
-
-  def phase_finished?
-    @governor_count == 1
-  end
-
-  def round_finished?
-    @governor_count and (@governor_count % size == 0)
-  end
 end

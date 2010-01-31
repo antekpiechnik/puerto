@@ -32,10 +32,6 @@ class Puerto::Core::Game
     @setup.players
   end
 
-  def current_player
-    players.current
-  end
-
   def choose_role(role)
     roles.choose(role)
   end
@@ -71,10 +67,6 @@ class Puerto::Core::Game
 
   def award_doubloons(player, amount)
     player.add_doubloons(amount)
-  end
-
-  def phase_finished?
-    players.phase_finished?
   end
 
   def winner
