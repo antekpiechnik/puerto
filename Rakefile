@@ -29,7 +29,7 @@ task :coverage do
   rm_f "coverage"
   rm_f "coverage.data"
   rcov = "rcov --aggregate coverage.data -Ilib"
-  system("#{rcov} --html test/**/*_test.rb test/*_test.rb")
+  system("#{rcov} --html test/**/*test.rb test/*test.rb")
   system("open coverage/index.html") if PLATFORM['darwin']
 end
 

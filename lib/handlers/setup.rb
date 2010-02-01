@@ -67,8 +67,8 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   def player_text(players)
     out = []
     players.each_with_index do |player, i|
-      out << "Player %d: %s" % [i + 1, player]
+      out << ["Player %d" % [i + 1], player]
     end
-    out.join("\n")
+    tabular_output(out)
   end
 end

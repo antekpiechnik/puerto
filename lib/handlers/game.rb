@@ -46,6 +46,6 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   end
 
   def title
-    "Role %s" % [@game.players.size, @game.players.current.name]
+    "%d-player game" % [@game.players.size]
   end
 end

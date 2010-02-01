@@ -82,6 +82,7 @@ module Puerto::OutputHelper
   end
 
   def tabular_output(table)
+    return "" if table.empty?
     width = table.map(&:first).map(&:size).max + 3
     out = []
     table.each do |name, value|
