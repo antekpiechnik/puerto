@@ -31,38 +31,22 @@ class CoreGameTest < Test::Unit::TestCase
 
   3.upto(5) do |i|
     define_method("test_correct_ships_for_%dplayer_game" % [i]) do
-      names = (1..i).map(&:to_s)
-      players = Puerto::Player.create(names)
-      setup = Puerto::Core::Setup.new
-      setup.players = players
-      game = Puerto::Core::Game.new(setup)
+      game = instantiate_game(i)
       assert_equal [i + 1, i + 2, i + 3], game.cargo_ships.map(&:first)
     end
 
     define_method("test_correct_vps_for_%dplayer_game" % [i]) do
-      names = (1..i).map(&:to_s)
-      players = Puerto::Player.create(names)
-      setup = Puerto::Core::Setup.new
-      setup.players = players
-      game = Puerto::Core::Game.new(setup)
+      game = instantiate_game(i)
       assert_equal({3 => 75, 4 => 100, 5 => 122}[i], game.vps)
     end
 
     define_method("test_correct_colonists_for_%dplayer_game" % [i]) do
-      names = (1..i).map(&:to_s)
-      players = Puerto::Player.create(names)
-      setup = Puerto::Core::Setup.new
-      setup.players = players
-      game = Puerto::Core::Game.new(setup)
+      game = instantiate_game(i)
       assert_equal({3 => 55, 4 => 75, 5 => 95}[i], game.colonists)
     end
 
     define_method("test_correct_roles_for_%dplayer_game" % [i]) do
-      names = (1..i).map(&:to_s)
-      players = Puerto::Player.create(names)
-      setup = Puerto::Core::Setup.new
-      setup.players = players
-      game = Puerto::Core::Game.new(setup)
+      game = instantiate_game(i)
       assert_equal(i + 3, game.roles.size)
     end
   end
@@ -177,5 +161,14 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 0, @game.roles.taken_count
     @game.roles.choose(Puerto::Core::Game::MAYOR)
     assert_equal 1, @game.roles.taken_count
+  end
+
+  private
+  def instantiate_game(player_count)
+    names = (1..player_count).map { |e| "Player %d" % [e] }
+    players = Puerto::Player.create(names)
+    setup = Puerto::Core::Setup.new
+    setup.players = players
+    game = Puerto::Core::Game.new(setup)
   end
 end
