@@ -26,7 +26,7 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
   ##
   # @action
   def run
-    frame("Oh, hai!")
+    frame("Current role: %s" % [@round.role])
   end
 
   def title
