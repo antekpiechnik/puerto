@@ -6,7 +6,7 @@ class Puerto::Handlers::Setup < Puerto::Handlers::BaseHandler
   ##
   # @action
   def run
-    if @setup.players?
+    if ! @setup.players?
       frame("Please set players")
     else
       player_text(@setup.players)
