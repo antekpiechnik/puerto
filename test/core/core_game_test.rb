@@ -60,7 +60,7 @@ class CoreGameTest < Test::Unit::TestCase
   def test_choosing_the_role_makes_it_unavailable
     role = @game.roles[1][0]
     assert_not_nil role
-    @game.choose_role(role)
+    @game.roles.choose(role)
     assert_equal false, @game.roles[1][1]
   end
 
@@ -140,8 +140,8 @@ class CoreGameTest < Test::Unit::TestCase
   end
 
   def test_each_valid_yields_only_available_roles
-    @game.choose_role(Puerto::Core::Game::SETTLER)
-    @game.choose_role(Puerto::Core::Game::BUILDER)
+    @game.roles.choose(Puerto::Core::Game::SETTLER)
+    @game.roles.choose(Puerto::Core::Game::BUILDER)
     counter = 0
     @game.roles.each { counter += 1 }
     assert_equal 6, counter

@@ -4,7 +4,8 @@ class Puerto::Core::Round
   def initialize(game, role)
     @game, @role = game, role
     @moves = @game.players.size
-    @game.choose_role(@role)
+    @player = @game.players.current
+    @game.roles.choose(@role)
   end
 
   def finished?
@@ -12,6 +13,11 @@ class Puerto::Core::Round
   end
 
   def next
+    case role
+    when Puerto::Core::Game::PROSPECTOR
+      handle_prospector
+    else
+    end
     @moves -= 1
     game.players.next!
     finish if finished?
@@ -24,5 +30,11 @@ class Puerto::Core::Round
 
   def last_in_phase?
     @game.roles.taken_count == @game.players.size
+  end
+
+  def handle_prospector
+    if @player == game.players.current
+      @game.award_doubloons(@player, 1)
+    end
   end
 end

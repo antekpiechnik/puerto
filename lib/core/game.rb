@@ -32,10 +32,6 @@ class Puerto::Core::Game
     @setup.players
   end
 
-  def choose_role(role)
-    roles.choose(role)
-  end
-
   def next
     players.next!
   end
