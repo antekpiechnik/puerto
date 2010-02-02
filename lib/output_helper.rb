@@ -11,8 +11,8 @@ module Puerto::OutputHelper
     width ||= tty_width
     legend ||= self.title
     str = ""
-    str << "+ --[ %s%s%s ] " % ["\033[00;32m", legend, "\033[00;37m"]
-    str << "-" * (width - legend.length - 8)
+    str << "+ --[ %s%s%s ]" % ["\033[00;32m", legend, "\033[00;37m"]
+    str << "-" * (width - legend.length - 7)
     str << "+\n"
     while text
       text, line = extract_line(text, width)
