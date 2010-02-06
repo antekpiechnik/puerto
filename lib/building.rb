@@ -1,4 +1,6 @@
-class Puerto::Building
+Puerto::Building = Struct.new(:name, :price, :slots, :vps)
+
+class Puerto::Buildings
   # [name, price, slots, vps == group]
   # The production buildings
   INDIGO_PLANT       = ["Indigo plant", 3, 3, 2]
@@ -29,49 +31,76 @@ class Puerto::Building
   CUSTOMS_HOUSE = ["Customs house", 10, 1, 4]
   CITY_HALL     = ["City hall", 10, 1, 4]
 
-  def self.available_buildings
+  AVAILABLE_BUILDINGS =
     [
-      [INDIGO_PLANT[0], 3],
-      [SMALL_INDIGO_PLANT[0], 4],
-      [SUGAR_MILL[0], 3],
-      [SMALL_SUGAR_MILL[0], 4],
-      [TOBACCO_STORAGE[0], 3],
-      [COFFEE_ROASTER[0], 3],
+      INDIGO_PLANT, INDIGO_PLANT, INDIGO_PLANT,
+      SMALL_INDIGO_PLANT, SMALL_INDIGO_PLANT, SMALL_INDIGO_PLANT, SMALL_INDIGO_PLANT,
+      SUGAR_MILL, SUGAR_MILL, SUGAR_MILL,
+      SMALL_SUGAR_MILL, SMALL_SUGAR_MILL, SMALL_SUGAR_MILL, SMALL_SUGAR_MILL,
+      TOBACCO_STORAGE, TOBACCO_STORAGE, TOBACCO_STORAGE,
+      COFFEE_ROASTER, COFFEE_ROASTER, COFFEE_ROASTER,
 
-      [SMALL_MARKET[0], 2],
-      [HACIENDA[0], 2],
-      [CONSTRUCTION_HUT[0], 2],
-      [SMALL_WAREHOUSE[0], 2],
-      [HOSPICE[0], 2],
-      [OFFICE[0], 2],
-      [LARGE_MARKET[0], 2],
-      [LARGE_WAREHOUSE[0], 2],
-      [FACTORY[0], 2],
-      [UNIVERSITY[0], 2],
-      [HARBOR[0], 2],
-      [WHARF[0], 2],
+      SMALL_MARKET, SMALL_MARKET,
+      HACIENDA, HACIENDA,
+      CONSTRUCTION_HUT, CONSTRUCTION_HUT,
+      SMALL_WAREHOUSE, SMALL_WAREHOUSE,
+      HOSPICE, HOSPICE,
+      OFFICE, OFFICE,
+      LARGE_MARKET, LARGE_MARKET,
+      LARGE_WAREHOUSE, LARGE_WAREHOUSE,
+      FACTORY, FACTORY,
+      UNIVERSITY, UNIVERSITY,
+      HARBOR, HARBOR,
+      WHARF, WHARF,
 
-      [GUILD_HALL[0], 1],
-      [RESIDENCE[0], 1],
-      [FORTRESS[0], 1],
-      [CUSTOMS_HOUSE[0], 1],
-      [CITY_HALL[0], 1],
-    ].freeze
+      GUILD_HALL,
+      RESIDENCE,
+      FORTRESS,
+      CUSTOMS_HOUSE,
+      CITY_HALL,
+    ].map { |e| Puerto::Building.new(*e) }.freeze
+
+  attr_reader :buildings
+
+  def initialize(game)
+    @game = game
+    @buildings = AVAILABLE_BUILDINGS.dup
   end
 
-  def self.buy_building(available, requested)
-    building = available.find {|element| element[0]==requested[0] }
+  def buy_building(player, name)
+    raise ArgumentError.new("Player cannot buy this building") if player.buildings.include?(name)
+    idx = buildings.map { |b| b[0] }.index(name)
+    idx ? buildings.delete_at(idx) : nil
+  end
 
-    unless building.nil?
-      if building[1] > 0
-        building[1]-=1
-        return building
-      else
-        return nil
-      end
+  def price(player, building, chosen)
+    building.price - discount(player, building, chosen)
+  end
+
+  def discount(player, building, chosen)
+    sub = chosen ? 1 : 0
+    sub += [player.quarry_count, building.vps].min
+    sub > building.price ? building.price : sub
+  end
+
+  def to_s(player, chosen)
+    compact = compacted_buildings
+    compacted_buildings.map do |num, building, count|
+      price = price(player, building, chosen)
+      "%2d. %dx %s %ds     %dd - %dd = %dd" % [num, count, building.name.ljust(20),
+        building.slots, building.price, building.price - price, price]
+    end.join("\n")
+  end
+
+  def compacted_buildings
+    out = []
+    dup_buildings = buildings.dup
+    i = 0
+    while not dup_buildings.empty?
+      size = dup_buildings.size
+      b = dup_buildings.delete(dup_buildings.first)
+      out << [i += 1, b, size - dup_buildings.size]
     end
-  end
-
-  def initialize(name, price, slots, vps)
+    out
   end
 end

@@ -5,7 +5,7 @@
 # Please note that the `players` Array returned by {create} is extended by
 # {Puerto::PlayerList} providing useful methods.
 class Puerto::Player
-  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods
+  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods, :quarry_count
   attr_accessor :next_player, :previous_player
 
   def initialize(name)
@@ -14,6 +14,7 @@ class Puerto::Player
     @plantations = []
     @vps = 0
     @doubloons = 0
+    @quarry_count = 2
     @goods = []
     @current = @governor = false
   end

@@ -1,5 +1,5 @@
 class Puerto::Core::Game
-  attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house, :buildings, :goods, :cargo_ships
+  attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house, :goods, :cargo_ships, :buildings
 
   CORN    = "k"
   INDIGO  = "i"
@@ -23,7 +23,7 @@ class Puerto::Core::Game
     # [capacity, taken, good (nil if none)]
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
-    @buildings = Puerto::Building.available_buildings.dup
+    @buildings = Puerto::Buildings.new(self)
     @finishing = false
     @roles = RoleList.create(players.size)
   end

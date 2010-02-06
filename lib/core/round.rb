@@ -13,14 +13,13 @@ class Puerto::Core::Round
   end
 
   def next
-    case role
-    when Puerto::Core::Game::PROSPECTOR
-      handle_prospector
-    else
-    end
     @moves -= 1
     game.players.next!
     finish if finished?
+  end
+
+  def first?
+    @player == game.players.current
   end
 
   private

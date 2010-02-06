@@ -8,7 +8,8 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
 
   def menu_options
     menu = []
-    menu << ["1", ["Next", :next]]
+    menu << ["1", ["Build", :build]] if @round.role == Puerto::Core::Game::BUILDER
+    menu << ["0", ["Next", :next]]
     menu
   end
 
@@ -20,6 +21,22 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
       self.assign_handler(:previous)
     else
       "Role %s: \nCurrent player: %s" % [@role, @game.players.current.to_s]
+    end
+  end
+
+  ##
+  # @action
+  def build
+    puts @game.buildings.to_s(@game.players.current, @round.first?)
+    compacted_buildings = @game.buildings.compacted_buildings
+    opts = compacted_buildings.map { |e| e.first } + [0]
+    begin
+      input = gets.to_i
+    end while not opts.include?(input)
+    if @game.buildings.buy_building(@game.players.current, compacted_buildings[input - 1][1].name)
+      "Bought"
+    else
+      "Not bought"
     end
   end
 
