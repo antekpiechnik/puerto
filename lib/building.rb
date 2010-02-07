@@ -70,6 +70,7 @@ class Puerto::Buildings
   def buy_building(player, name)
     raise ArgumentError.new("Player cannot buy this building") if player.buildings.include?(name)
     idx = buildings.map { |b| b[0] }.index(name)
+    player.award_building(name)
     idx ? buildings.delete_at(idx) : nil
   end
 

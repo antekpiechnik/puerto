@@ -93,6 +93,14 @@ class Puerto::Player
     @vps += amount unless amount <= 0
   end
 
+  def award_building(name)
+    if @buildings.length < 12
+      @buildings << [name, 0]
+    else
+      raise ArgumentError.new("No more space in the city") if player.buildings.include?(name)
+    end
+  end
+
   def current?
     @current
   end

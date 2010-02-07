@@ -6,10 +6,27 @@ class Puerto::Core::Round
     @moves = @game.players.size
     @player = @game.players.current
     @game.roles.choose(@role)
+    @action_taken = 0
   end
 
   def finished?
-    @moves == 0
+    if @moves == 0
+      if acted?
+        @action_taken = 0
+        @moves = @game.players.size
+        return false
+      else
+        return true
+      end
+    end
+  end
+
+  def acted?
+    @action_taken == 1
+  end
+
+  def acted
+    @action_taken = 1
   end
 
   def next
