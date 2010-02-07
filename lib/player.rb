@@ -16,6 +16,7 @@ class Puerto::Player
     @doubloons = 0
     @quarry_count = 2
     @goods = []
+    @colonists = 0
     @current = @governor = false
   end
 
@@ -93,8 +94,16 @@ class Puerto::Player
     @vps += amount unless amount <= 0
   end
 
+  def add_colonists(amount)
+    @colonists += amount unless amount <= 0
+  end
+
+  def free_city_space
+    12 - @buildings.length
+  end
+
   def award_building(name)
-    if @buildings.length < 12
+    if free_city_space > 0
       @buildings << [name, 0]
     else
       raise ArgumentError.new("No more space in the city") if player.buildings.include?(name)

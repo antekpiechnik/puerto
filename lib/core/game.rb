@@ -65,6 +65,27 @@ class Puerto::Core::Game
     player.add_doubloons(amount)
   end
 
+  def award_colonist(player, amount)
+    @colonists -= amount
+    player.add_colonists(amount)
+  end
+
+  def distribute_colonists
+    index = 0
+    while @colonists > 0
+      award_colonist(@setup.players[index], 1)
+      if index == players.size-1
+        index = 0
+      else
+        index += 1
+      end
+    end
+
+    @setup.players.each do |player|
+      @colonists += player.free_city_space
+    end
+  end
+
   def winner
     sorted = players.sort do |a, b|
       result = b.vps <=> a.vps

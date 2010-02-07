@@ -30,6 +30,12 @@ class Puerto::Core::Round
   end
 
   def next
+    case role
+      when Puerto::Core::Game::PROSPECTOR then handle_prospector
+      when Puerto::Core::Game::MAYOR then handle_mayor
+      else
+    end
+
     @moves -= 1
     game.players.next!
     finish if finished?
@@ -51,6 +57,12 @@ class Puerto::Core::Round
   def handle_prospector
     if @player == game.players.current
       @game.award_doubloons(@player, 1)
+      @moves = 1
     end
+  end
+
+  def handle_mayor
+    @game.distribute_colonists
+    @moves = 1
   end
 end
