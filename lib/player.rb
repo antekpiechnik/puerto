@@ -146,11 +146,9 @@ class Puerto::Player
   end
 
   def award_building(name)
-    if free_city_space > 0
-      @buildings << [name, 0]
-    else
-      raise ArgumentError.new("No more space in the city") if player.buildings.include?(name)
-    end
+    raise ArgumentError.new("No more space in the city") if free_city_space <= 0
+    raise ArgumentError.new("Already bought this building") if buildings.map { |e| e[0] }.include?(name)
+    @buildings << [name, 0]
   end
 
   def buildings_pretty_print

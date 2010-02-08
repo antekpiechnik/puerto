@@ -128,6 +128,15 @@ class PlayerTest < Test::Unit::TestCase
     assert_equal p1.free_city_space, 11
   end
 
+  def test_award_building_fails_if_building_owned_already
+    joe = @players[0]
+    building = Puerto::Buildings::SUGAR_MILL[0]
+    joe.award_building(building)
+    assert_raises(ArgumentError) do
+      joe.award_building(building)
+    end
+  end
+
   def test_adding_colonists
     p1 = @players[0]
     p1.add_colonists(5)
