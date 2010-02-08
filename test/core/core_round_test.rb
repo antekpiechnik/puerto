@@ -52,4 +52,15 @@ class CoreRoundTest < Test::Unit::TestCase
     4.times { round.next }
     assert round.finished?
   end
+
+  def test_first_responds_true_if_just_started_round_and_noone_acted
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::SETTLER)
+    assert round.first?
+  end
+
+  def test_first_responds_false_if_someone_did_move
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::SETTLER)
+    round.next
+    assert ! round.first?
+  end
 end

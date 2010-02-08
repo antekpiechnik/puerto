@@ -49,25 +49,23 @@ class Puerto::Core::Round
   def finish
     if last_in_phase?
       game.roles.reset!
-      if @game.trading_house_full?
-        @game.reset_trading_house!
-      end
+      game.reset_trading_house! if game.trading_house_full?
     end
   end
 
   def last_in_phase?
-    @game.roles.taken_count == @game.players.size
+    game.roles.taken_count == game.players.size
   end
 
   def handle_prospector
     if @player == game.players.current
-      @game.award_doubloons(@player, 1)
+      game.award_doubloons(@player, 1)
       @moves = 1
     end
   end
 
   def handle_mayor
-    @game.distribute_colonists
+    game.distribute_colonists
     @moves = 1
   end
 end

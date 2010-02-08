@@ -112,9 +112,7 @@ class Puerto::Player
   end
 
   def free_buildings_space
-    sum = 0
-    @buildings.each { |b| sum += 1 if b[1] == 0 }
-    sum
+    @buildings.count { |b| b[1] == 0 }
   end
 
   def free_city_space
