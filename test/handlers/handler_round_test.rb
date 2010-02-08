@@ -5,12 +5,12 @@ class HandlerRoundTest < Test::Unit::TestCase
     @setup = Puerto::Core::Setup.new
     @setup.players = Puerto::Player.create(["a", "b", "c", "d"])
     @game = Puerto::Core::Game.new(@setup)
-    @role = Puerto::Core::Game::MAYOR
+    @role = Puerto::Core::Game::SETTLER
     @setup = Puerto::Handlers::Round.new(@game, @role)
   end
 
   def test_menu_responds
-    assert_menu(@setup, "1", "Next")
+    assert_menu(@setup, "0", "Next")
   end
 
   def test_responds_to_run_with_string
@@ -19,7 +19,7 @@ class HandlerRoundTest < Test::Unit::TestCase
   end
 
   def test_title
-    inc = "Role Mayor"
+    inc = "Role Settler"
     assert @setup.title.include?(inc), "%p doesn't include %p" % [@setup.title, inc]
   end
 end

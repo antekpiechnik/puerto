@@ -9,7 +9,7 @@ class CoreRoundTest < Test::Unit::TestCase
   end
 
   def test_roles_set_moves_to_number_of_players
-    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::MAYOR)
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::SETTLER)
     assert ! round.finished?
     round.next
     assert ! round.finished?

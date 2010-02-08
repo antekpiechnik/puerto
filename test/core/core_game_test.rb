@@ -26,7 +26,7 @@ class CoreGameTest < Test::Unit::TestCase
     ships = [[4, 3, Puerto::Core::Game::COFFEE],
              [5, 0, nil],
              [6, 1, Puerto::Core::Game::TOBACCO]].extend(CargoShipList)
-    assert_equal "3/4(c), 0/5, 1/6(t)", ships.to_s
+    assert_equal "3/4(Coffee), 0/5, 1/6(Tobacco)", ships.to_s
   end
 
   3.upto(5) do |i|

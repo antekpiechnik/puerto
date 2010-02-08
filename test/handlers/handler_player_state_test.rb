@@ -28,13 +28,13 @@ class HandlerPlayerStateTest < Test::Unit::TestCase
     @players[1].add_doubloons(3)
     assert @players[0].current?
     screen = @playerstate.player_state(*[@players[1]])
-    assert screen.include?("Doubloons : %d" % @players[1].doubloons)
+    assert screen.include?("Doubloons | %d" % @players[1].doubloons)
   end
 
   def test_current_sees_his_doubloons
     @players[0].add_doubloons(5)
     assert @players[0].current?
     screen = @playerstate.player_state(*[@players[0]])
-    assert screen.include?("Doubloons : %d" % @players[0].doubloons)
+    assert screen.include?("Doubloons | %d" % @players[0].doubloons)
   end
 end
