@@ -47,7 +47,12 @@ class Puerto::Core::Round
 
   private
   def finish
-    game.roles.reset! if last_in_phase?
+    if last_in_phase?
+      game.roles.reset!
+      if @game.trading_house_full?
+        @game.reset_trading_house!
+      end
+    end
   end
 
   def last_in_phase?

@@ -10,6 +10,7 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
     menu = []
     menu << ["1", ["Build", :build]] if @round.role == Puerto::Core::Game::BUILDER
     menu << ["1", ["LoadShips", :load_ships]] if @round.role == Puerto::Core::Game::CAPTAIN
+    menu << ["1", ["Trade", :trade]] if @round.role == Puerto::Core::Game::TRADER
     menu << ["0", ["Next", :next]]
     menu
   end
@@ -43,8 +44,9 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
     end
   end
 
+  ##
+  # @action
   def load_ships
-    puts @game.cargo_ships.map{|a| a[0] == a[1] ? "none" : a[2]}.delete_if {|x| x == "none" }
     loadable_goods = @game.players.current.loadable_goods(
       @game.cargo_ships.map {|a| a[2]},
       @game.cargo_ships.map {|a| a[2] if a[1] == a[0]}.delete_if {|x| x.nil?}
@@ -60,17 +62,41 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
       input = gets.to_i
     end while not opts.include?(input)
     if @game.load_good(loadable_goods[input])
-      puts loadable_goods[input]
       "Loaded"
       @game.players.current.remove_good(loadable_goods[input])
       @game.award_vps(@game.players.current, 1)
       @round.acted
-      puts @game.cargo_ships.to_s
       @game.next
     else
       "Fale"
     end
   end
+
+  ##
+  # @action
+  def trade
+    tradeable_goods = @game.players.current.tradeable_goods(@game.trading_house)
+    output = []
+    opts = []
+    tradeable_goods.each_index do |index|
+      opts << index
+      output << "#{index.to_s} #{tradeable_goods[index].to_s}"
+    end
+    if opts.size > 0
+      puts output.join("\n")
+      begin
+        input = gets.to_i
+      end while not opts.include?(input)
+      @game.trade_good(tradeable_goods[input])
+      @game.players.current.remove_good(tradeable_goods[input])
+      @game.award_doubloons(@game.players.current, 3)
+      @round.acted
+      @game.next
+    else
+      "Nothing to trade"
+    end
+  end
+
 
   ##
   # @action

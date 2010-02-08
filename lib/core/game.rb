@@ -47,6 +47,21 @@ class Puerto::Core::Game
     @finishing
   end
 
+  def trading_house_full?
+    @trading_house == 4
+  end
+
+  def reset_trading_house!
+    @trading_house = []
+  end
+
+  def trade_good(type)
+    if !@trading_house.include?(type)
+      @trading_house << type
+    end
+    puts @trading_house.join(",")
+  end
+
   ##
   # Gives `amount` VPs to `player`. The game can finish with negative VPs, it's
   # only a matter of them being `<= 0` (during captain phase players take VPs

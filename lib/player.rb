@@ -125,11 +125,17 @@ class Puerto::Player
     puts goods_already_in
     puts @goods
     if goods_already_in.include?(nil)
-      a =  @goods.map{ |a| a[0] unless goods_filled.include?(a[0]) }.delete_if {|x| x.nil? }
-      puts a
-      return a
+      return @goods.map{ |a| a[0] unless goods_filled.include?(a[0]) }.delete_if {|x| x.nil? }
     else
       return @goods.map{ |a| a[0] unless goods_already_in.include?(a[0]) or goods_filled.include?(a[0]) }.delete_if { |x| x.nil? }
+    end
+  end
+
+  def tradeable_goods(trading_house)
+    if trading_house.size == 4
+      return @goods.map{ |a| a[0] unless trading_house.include?(a[0]) }.delete_if {|x| x.nil?}
+    else
+      return @goods.map{ |a| a[0] }
     end
   end
 
