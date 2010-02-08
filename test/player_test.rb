@@ -147,4 +147,59 @@ class PlayerTest < Test::Unit::TestCase
     p1.add_colonists(-1)
     assert_equal 2, p1.colonists
   end
+
+  def test_assigning_colonists_works
+    p1 = @players[0]
+    p1.award_building(Puerto::Buildings::HACIENDA[0])
+    p1.assign_colonist(Puerto::Buildings::HACIENDA[0])
+    assert_equal 1, p1.buildings[0][1]
+  end
+
+  def test_assigning_colonists_when_no_building
+    p1 = @players[0]
+    assert_nil p1.assign_colonist(Puerto::Buildings::HACIENDA[0])
+  end
+
+  def test_print_inactive_buildings_without_colonists
+    p1 = @players[0]
+    p1.award_building(Puerto::Buildings::HACIENDA[0])
+    assert p1.buildings_pretty_print.include?("Hacienda (inactive)")
+  end
+
+  def test_prints_active_and_inactive
+    p1 = @players[0]
+    p1.award_building(Puerto::Buildings::INDIGO_PLANT[0])
+    p1.award_building(Puerto::Buildings::HACIENDA[0])
+    p1.assign_colonist(Puerto::Buildings::HACIENDA[0])
+    assert p1.buildings_pretty_print.include?("Hacienda (active)")
+    assert p1.buildings_pretty_print.include?("Indigo plant (inactive)")
+  end
+
+  def test_adding_goods_works
+    p1 = @players[0]
+    if p1.goods.map {|a| a[0]}.include?(Puerto::Core::Game::CORN)
+      p1.remove_good(Puerto::Core::Game::CORN)
+    end
+    p1.add_goods(Puerto::Core::Game::CORN, 10)
+    assert p1.goods.include?([Puerto::Core::Game::CORN, 10])
+  end
+
+  def test_summing_goods_works
+    p1 = @players[0]
+    if p1.goods.map {|a| a[0]}.include?(Puerto::Core::Game::CORN)
+      p1.remove_good(Puerto::Core::Game::CORN)
+    end
+    p1.add_goods(Puerto::Core::Game::CORN, 10)
+    p1.add_goods(Puerto::Core::Game::CORN, 11)
+    assert p1.goods.include?([Puerto::Core::Game::CORN, 21])
+  end
+
+  def test_goods_pretty_print
+    p1 = @players[0]
+    if p1.goods.map {|a| a[0]}.include?(Puerto::Core::Game::CORN)
+      p1.remove_good(Puerto::Core::Game::CORN)
+    end
+    p1.add_goods(Puerto::Core::Game::CORN, 10)
+    assert p1.goods_pretty_print.include?("Corn - 10")
+  end
 end

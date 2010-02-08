@@ -192,6 +192,27 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 1, @game.colonists
   end
 
+  def test_loading_goods_when_free_space
+    assert_equal [nil,nil,nil], @game.cargo_ships.map {|a| a[2]}
+    @game.load_good(Puerto::Core::Game::CORN)
+    assert_equal [Puerto::Core::Game::CORN, nil, nil], @game.cargo_ships.map {|a| a[2]}
+  end
+
+  def test_wont_load_when_no_cargo_ship_of_that_type
+    assert_equal [nil,nil,nil], @game.cargo_ships.map {|a| a[2]}
+    @game.load_good(Puerto::Core::Game::CORN)
+    @game.load_good(Puerto::Core::Game::TOBACCO)
+    @game.load_good(Puerto::Core::Game::COFFEE)
+    assert ! @game.load_good(Puerto::Core::Game::INDIGO)
+    assert_equal [Puerto::Core::Game::CORN, Puerto::Core::Game::TOBACCO, Puerto::Core::Game::COFFEE], @game.cargo_ships.map {|a| a[2]}
+  end
+
+  def test_loading_fills_ships
+    assert_equal [nil,nil,nil], @game.cargo_ships.map {|a| a[2]}
+    3.times { @game.load_good(Puerto::Core::Game::CORN) }
+    assert_equal 3, @game.cargo_ships[0][1]
+  end
+
   private
   def instantiate_game(player_count)
     names = (1..player_count).map { |e| "Player %d" % [e] }

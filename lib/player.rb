@@ -102,12 +102,13 @@ class Puerto::Player
   end
 
   def assign_colonist(building)
-    idx = @buildings.map { |b| b[0] }.index(name)
+    idx = @buildings.map { |b| b[0] }.index(building)
     idx ? buildings[idx][1] = 1 : nil
   end
 
   def add_goods(type, amount)
-    @goods << [type, amount]
+    idx = @goods.map {|a| a[0]}.index(type)
+    idx.nil? ? @goods << [type, amount] : @goods[idx][1] += amount
   end
 
   def free_buildings_space
