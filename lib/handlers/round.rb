@@ -65,6 +65,9 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
       "Loaded"
       @game.players.current.remove_good(loadable_goods[input])
       @game.award_vps(@game.players.current, 1)
+      if @game.vps == 0
+        @game.finishing = true
+      end
       @round.acted
       @game.next
     else

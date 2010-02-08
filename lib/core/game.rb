@@ -98,8 +98,15 @@ class Puerto::Core::Game
       end
     end
 
+    colonists_to_add = 0
     @setup.players.each do |player|
-      @colonists += player.free_buildings_space
+      colonists_to_add += player.free_buildings_space
+    end
+
+    if colonists_to_add == 0
+      @finishing = true
+    else
+      @colonists += colonists_to_add
     end
   end
 
