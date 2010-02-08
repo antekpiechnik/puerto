@@ -98,6 +98,17 @@ class Puerto::Player
     @colonists += amount unless amount <= 0
   end
 
+  def assign_colonist(building)
+    idx = @buildings.map { |b| b[0] }.index(name)
+    idx ? buildings[idx][1] = 1 : nil
+  end
+
+  def free_buildings_space
+    sum = 0
+    @buildings.each { |b| sum += 1 if b[1] == 0 }
+    sum
+  end
+
   def free_city_space
     12 - @buildings.length
   end
@@ -108,6 +119,15 @@ class Puerto::Player
     else
       raise ArgumentError.new("No more space in the city") if player.buildings.include?(name)
     end
+  end
+
+  def buildings_pretty_print
+    output = ""
+    @buildings.each do |building|
+      output << building[0]
+      building[1] == 1 ? output << " (active)," : output << " (inactive),"
+    end
+    output
   end
 
   def current?

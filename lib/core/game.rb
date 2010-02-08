@@ -82,7 +82,7 @@ class Puerto::Core::Game
     end
 
     @setup.players.each do |player|
-      @colonists += player.free_city_space
+      @colonists += player.free_buildings_space
     end
   end
 

@@ -28,9 +28,10 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
   def player_state(picked)
     result = []
     result << ["Name", picked]
-    result << ["Buildings", picked.buildings]
+    result << ["Buildings", picked.buildings_pretty_print]
     result << ["Plantations", picked.plantations]
     result << ["Doubloons", picked.doubloons]
+    result << ["Colonists", picked.colonists]
     result << ["Goods", picked.goods]
     if picked.current?
       result << ["VPs", picked.vps]

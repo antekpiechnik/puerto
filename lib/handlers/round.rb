@@ -9,6 +9,7 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
   def menu_options
     menu = []
     menu << ["1", ["Build", :build]] if @round.role == Puerto::Core::Game::BUILDER
+    menu << ["1", ["LoadShips", :load_ships]] if @round.role == Puerto::Core::Game::CAPTAIN
     menu << ["0", ["Next", :next]]
     menu
   end
