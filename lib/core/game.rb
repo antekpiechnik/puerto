@@ -48,7 +48,7 @@ class Puerto::Core::Game
   end
 
   def trading_house_full?
-    @trading_house == 4
+    @trading_house.size == 4
   end
 
   def reset_trading_house!
@@ -59,7 +59,6 @@ class Puerto::Core::Game
     if !@trading_house.include?(type)
       @trading_house << type
     end
-    puts @trading_house.join(",")
   end
 
   ##

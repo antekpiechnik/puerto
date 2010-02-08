@@ -213,6 +213,25 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 3, @game.cargo_ships[0][1]
   end
 
+  def test_trading_house_fullness
+    assert ! @game.trading_house_full?
+    @game.trade_good("Coffee")
+    @game.trade_good("Tobacco")
+    @game.trade_good("Corn")
+    @game.trade_good("Indigo")
+    assert @game.trading_house_full?
+  end
+
+  def resetting_the_trading_house
+    @game.trade_good("Coffee")
+    @game.trade_good("Tobacco")
+    @game.trade_good("Corn")
+    @game.trade_good("Indigo")
+    assert @game.trading_house_full?
+    assert @game.reset_trading_house!
+    assert ! @game.trading_house_full?
+  end
+
   private
   def instantiate_game(player_count)
     names = (1..player_count).map { |e| "Player %d" % [e] }

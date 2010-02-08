@@ -131,7 +131,7 @@ class Puerto::Player
 
   def tradeable_goods(trading_house)
     if trading_house.size == 4
-      return @goods.map{ |a| a[0] unless trading_house.include?(a[0]) }.delete_if {|x| x.nil?}
+      return @goods.map{ |a| a[0] if trading_house.include?(a[0]) }.delete_if {|x| x.nil?}
     else
       return @goods.map{ |a| a[0] }
     end

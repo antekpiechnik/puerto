@@ -220,4 +220,30 @@ class PlayerTest < Test::Unit::TestCase
     goods_filled = [p1.goods[1][0]]
     assert_equal [p1.goods[2][0]], p1.loadable_goods(goods_in, goods_filled)
   end
+
+  def test_tradeable_goods_no_goods_in
+    p1 = @players[0]
+    assert_equal p1.goods.map {|a| a[0]}, p1.tradeable_goods([])
+  end
+
+  def test_tradeable_goods_no_more_space
+    p1 = @players[0]
+    p1.goods.map {|a| a[0]}.each do |good|
+      p1.remove_good(good)
+    end
+    trading_house = ["Coffee", "Tobacco", "Corn", "Indigo"]
+    p1.add_goods(Puerto::Core::Game::SUGAR, 10)
+    assert_equal [], p1.tradeable_goods(trading_house)
+    p1.add_goods(Puerto::Core::Game::COFFEE, 5)
+    assert_equal ["Coffee"], p1.tradeable_goods(trading_house)
+  end
+
+
+
+  def test_tradeable_goods_1_good_in
+    p1 = @players[0]
+    trading_house = [p1.goods[0][0]]
+    assert_equal [p1.goods[0][0], p1.goods[1][0], p1.goods[2][0]], p1.tradeable_goods(trading_house)
+  end
+
 end
