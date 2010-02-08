@@ -45,6 +45,16 @@ class Puerto::Core::Round
     @player == game.players.current
   end
 
+  ##
+  # mozna kupowac w tej chwili ile sie chce i gra nie konczy rundy, powinna byc
+  # mozliwosc kupienia 1 budynku. poza tym trzeba wykekstrahowac finishowanie i
+  # redukowanie @moves do jakiejs osobnej funkcji i wolac to w #next i tutaj
+  # tez.
+  #
+  # jak widzisz obsluge szitu oparlem na wyjatkach, jesli jakis leci to w
+  # handlerze go lapiemy i wypluwamy jego tresc (ktora jest wytlumaczeniem
+  # dlaczego nie mozna kupic). reszta tych akcji tez powinna zostac zrobiona w
+  # ten sposob chyba
   def buy_building(input)
     compacted_buildings = game.buildings.compacted_buildings
     opts = compacted_buildings.map { |e| e.first }
