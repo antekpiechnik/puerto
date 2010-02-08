@@ -39,7 +39,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     out << ["Trading house", @game.trading_house.to_s]
     out << ["VPs", @game.vps]
     out << ["Colonists", @colonists]
-    out << ["Available buildings", @game.buildings.map { |n, a| "%s = %d" % [n, a] }.join(", ")]
+#    out << ["Available buildings", @game.buildings.map { |n, a| "%s = %d" % [n, a] }.join(", ")]
     out << ["Goods", @game.goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
     out << ["Cargo ships", @game.cargo_ships.to_s]
     tabular_output(out)
