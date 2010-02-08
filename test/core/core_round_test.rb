@@ -33,4 +33,23 @@ class CoreRoundTest < Test::Unit::TestCase
     round.next
     assert_equal 0, @kazimierz.doubloons
   end
+
+  def test_if_builder_acted
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::BUILDER)
+    round.acted
+    assert round.acted?
+  end
+
+  def test_if_builder_acted_round_wont_finish
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::BUILDER)
+    round.acted
+    4.times { round.next }
+    assert round.moves > 0
+  end
+
+  def test_if_finished_when_no_builder_acted
+    round = Puerto::Core::Round.new(@game, Puerto::Core::Game::BUILDER)
+    4.times { round.next }
+    assert round.finished?
+  end
 end

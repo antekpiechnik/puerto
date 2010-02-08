@@ -36,9 +36,9 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
       input = gets.to_i
     end while not opts.include?(input)
     if @game.buildings.buy_building(@game.players.current, compacted_buildings[input - 1][1].name)
-      "Bought"
       @round.acted
       @game.next
+      "Bought"
     else
       "Not bought"
     end

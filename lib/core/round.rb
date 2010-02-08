@@ -1,5 +1,5 @@
 class Puerto::Core::Round
-  attr_reader :game, :role
+  attr_reader :game, :role, :moves
 
   def initialize(game, role)
     @game, @role = game, role

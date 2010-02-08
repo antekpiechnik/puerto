@@ -6,6 +6,7 @@ class CoreGameTest < Test::Unit::TestCase
     @players = @setup.players = Puerto::Player.create(["Michal", "Antek", "Jan"])
     @michal, @antek, @jan = @setup.players
     @game = Puerto::Core::Game.new(@setup)
+    @buildings = Puerto::Buildings.new(@game)
   end
 
   def test_current_player_returns_first_player
@@ -161,6 +162,34 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 0, @game.roles.taken_count
     @game.roles.choose(Puerto::Core::Game::MAYOR)
     assert_equal 1, @game.roles.taken_count
+  end
+
+  def test_awarding_colonists_works
+    assert_equal 55, @game.colonists
+    @game.award_colonist(@players[0], 10)
+    assert_equal 45, @game.colonists
+    assert_equal 10, @players[0].colonists
+  end
+
+  def test_distributing_colonists_distributes
+    assert_equal 55, @game.colonists
+    @game.distribute_colonists
+    assert_equal 19, @players[0].colonists
+    assert_equal 18, @players[1].colonists
+    assert_equal 18, @players[2].colonists
+  end
+
+  def test_distributing_colonists_doesnt_fill_when_no_buildings
+    assert_equal 55, @game.colonists
+    @game.distribute_colonists
+    assert_equal 0, @game.colonists
+  end
+
+  def test_distributing_colonists_fills_when_buildings_present
+    assert_equal 55, @game.colonists
+    @buildings.buy_building(@players[0], Puerto::Buildings::HACIENDA[0])
+    @game.distribute_colonists
+    assert_equal 1, @game.colonists
   end
 
   private

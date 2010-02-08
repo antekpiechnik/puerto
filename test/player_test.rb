@@ -113,4 +113,38 @@ class PlayerTest < Test::Unit::TestCase
     p1.add_vps(-3)
     assert_equal 0, p1.vps
   end
+
+  def test_awarding_buildings
+    p1 = @players[0]
+    assert_equal p1.buildings.size, 0
+    p1.award_building(Puerto::Buildings::HACIENDA[0])
+    assert_equal p1.buildings.size, 1
+  end
+
+  def test_free_city_space
+    p1 = @players[0]
+    assert_equal p1.free_city_space, 12
+    p1.award_building(Puerto::Buildings::HACIENDA[0])
+    assert_equal p1.free_city_space, 11
+  end
+
+  def test_adding_colonists
+    p1 = @players[0]
+    p1.add_colonists(5)
+    assert_equal 5, p1.colonists
+  end
+
+  def test_summing_up_colonists_when_adding
+    p1 = @players[0]
+    p1.add_colonists(3)
+    p1.add_colonists(5)
+    assert_equal 8, p1.colonists
+  end
+  
+  def test_wont_add_negative_colonists
+    p1 = @players[0]
+    p1.add_colonists(2)
+    p1.add_colonists(-1)
+    assert_equal 2, p1.colonists
+  end
 end
