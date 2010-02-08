@@ -45,6 +45,19 @@ class Puerto::Core::Round
     @player == game.players.current
   end
 
+  def buy_building(input)
+    compacted_buildings = game.buildings.compacted_buildings
+    opts = compacted_buildings.map { |e| e.first }
+    name = compacted_buildings[input - 1][1].name
+    if game.buildings.buy_building(game.players.current, name)
+      self.acted
+      game.next
+      name
+    else
+      raise ArgumentError.new("Couldn't buy")
+    end
+  end
+
   private
   def finish
     if last_in_phase?

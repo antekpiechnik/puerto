@@ -31,16 +31,13 @@ class Puerto::Handlers::Round < Puerto::Handlers::BaseHandler
   def build
     puts @game.buildings.to_s(@game.players.current, @round.first?)
     compacted_buildings = @game.buildings.compacted_buildings
-    opts = compacted_buildings.map { |e| e.first } + [0]
+    input = gets.to_i
+    return "Not bought" if input == 0
     begin
-      input = gets.to_i
-    end while not opts.include?(input)
-    if @game.buildings.buy_building(@game.players.current, compacted_buildings[input - 1][1].name)
-      @round.acted
-      @game.next
-      "Bought"
-    else
-      "Not bought"
+      building_name = @round.buy_building(input)
+      "Bought %s" % [building_name]
+    rescue ArgumentError => e
+      e.message
     end
   end
 
