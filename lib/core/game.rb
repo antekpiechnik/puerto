@@ -23,7 +23,7 @@ class Puerto::Core::Game
     @goods = [[CORN, 10], [INDIGO, 11], [SUGAR, 11], [TOBACCO, 9] , [COFFEE, 9]]
     @vps = {3 => 75, 4 => 100, 5 => 122}[players.size]
     # [capacity, taken, good (nil if none)]
-    @cargo_ships = (1..3).map { |e| [e, 0, nil] }.extend(CargoShipList)
+    @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Buildings.new(self)
     @finishing = false
