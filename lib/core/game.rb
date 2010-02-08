@@ -1,11 +1,13 @@
 class Puerto::Core::Game
   attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house, :goods, :cargo_ships, :buildings
 
-  CORN    = "k"
-  INDIGO  = "i"
-  SUGAR   = "s"
-  TOBACCO = "t"
-  COFFEE  = "c"
+  CORN    = "Corn"
+  INDIGO  = "Indigo"
+  SUGAR   = "Sugar"
+  TOBACCO = "Tobacco"
+  COFFEE  = "Coffee"
+
+  GOODS = [CORN, INDIGO, SUGAR, TOBACCO, COFFEE]
 
   SETTLER    = "Settler"
   MAYOR      = "Mayor"
@@ -21,7 +23,7 @@ class Puerto::Core::Game
     @goods = [[CORN, 10], [INDIGO, 11], [SUGAR, 11], [TOBACCO, 9] , [COFFEE, 9]]
     @vps = {3 => 75, 4 => 100, 5 => 122}[players.size]
     # [capacity, taken, good (nil if none)]
-    @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
+    @cargo_ships = (1..3).map { |e| [e, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
     @buildings = Puerto::Buildings.new(self)
     @finishing = false
@@ -84,6 +86,17 @@ class Puerto::Core::Game
     @setup.players.each do |player|
       @colonists += player.free_buildings_space
     end
+  end
+
+  def load_good(type)
+    idx = @cargo_ships.map {|a| a[2]}.index(type)
+    if idx.nil?
+      idx = @cargo_ships.map{|a| a[2]}.index(nil)
+      if !idx.nil?
+        @cargo_ships[idx][2] = type
+      end
+    end
+    idx.nil? ? false : @cargo_ships[idx][1] += 1
   end
 
   def winner

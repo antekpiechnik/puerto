@@ -5,7 +5,7 @@
 # Please note that the `players` Array returned by {create} is extended by
 # {Puerto::PlayerList} providing useful methods.
 class Puerto::Player
-  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods, :quarry_count
+  attr_reader :name, :buildings, :vps, :plantations, :doubloons, :goods, :quarry_count, :colonists
   attr_accessor :next_player, :previous_player
 
   def initialize(name)
@@ -49,6 +49,9 @@ class Puerto::Player
       players.extend(Puerto::PlayerList)
     else
       players = []
+    end
+    players.each do |player|
+      Puerto::Core::Game::GOODS.sort_by{rand}[0..2].each {|good| player.add_goods(good, 1)}
     end
     players
   end
@@ -103,6 +106,10 @@ class Puerto::Player
     idx ? buildings[idx][1] = 1 : nil
   end
 
+  def add_goods(type, amount)
+    @goods << [type, amount]
+  end
+
   def free_buildings_space
     sum = 0
     @buildings.each { |b| sum += 1 if b[1] == 0 }
@@ -111,6 +118,27 @@ class Puerto::Player
 
   def free_city_space
     12 - @buildings.length
+  end
+
+  def loadable_goods(goods_already_in, goods_filled)
+    puts goods_filled
+    puts goods_already_in
+    puts @goods
+    if goods_already_in.include?(nil)
+      a =  @goods.map{ |a| a[0] unless goods_filled.include?(a[0]) }.delete_if {|x| x.nil? }
+      puts a
+      return a
+    else
+      return @goods.map{ |a| a[0] unless goods_already_in.include?(a[0]) or goods_filled.include?(a[0]) }.delete_if { |x| x.nil? }
+    end
+  end
+
+  def remove_good(good)
+    idx = @goods.map{|a| a[0]}.index(good)
+    @goods[idx][1] -= 1
+    if @goods[idx][1] == 0
+      @goods.delete_at(idx)
+    end
   end
 
   def award_building(name)
@@ -129,6 +157,15 @@ class Puerto::Player
     end
     output
   end
+
+  def goods_pretty_print
+    output = ""
+    @goods.each do |goods|
+      output << "#{goods[0]} - #{goods[1]}, "
+    end
+    output
+  end
+
 
   def current?
     @current

@@ -32,7 +32,7 @@ class Puerto::Handlers::PlayerState < Puerto::Handlers::BaseHandler
     result << ["Plantations", picked.plantations]
     result << ["Doubloons", picked.doubloons]
     result << ["Colonists", picked.colonists]
-    result << ["Goods", picked.goods]
+    result << ["Goods", picked.goods_pretty_print]
     if picked.current?
       result << ["VPs", picked.vps]
     end
