@@ -202,4 +202,22 @@ class PlayerTest < Test::Unit::TestCase
     p1.add_goods(Puerto::Core::Game::CORN, 10)
     assert p1.goods_pretty_print.include?("Corn - 10")
   end
+
+  def test_loadable_goods_no_goods_in
+    p1 = @players[0]
+    assert_equal p1.goods.map {|a| a[0]}, p1.loadable_goods([], [])
+  end
+
+  def test_loadable_goods_2_goods_in
+    p1 = @players[0]
+    goods_in = [p1.goods[0][0], p1.goods[1][0]]
+    assert_equal [p1.goods[2][0]], p1.loadable_goods(goods_in, [])
+  end
+
+  def test_loadable_goods_2_goods_in
+    p1 = @players[0]
+    goods_in = [p1.goods[0][0]]
+    goods_filled = [p1.goods[1][0]]
+    assert_equal [p1.goods[2][0]], p1.loadable_goods(goods_in, goods_filled)
+  end
 end
