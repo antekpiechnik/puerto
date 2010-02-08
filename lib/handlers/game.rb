@@ -36,9 +36,9 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
   def game_stats
     out = []
     out << ["Governor", @game.players.governor.to_s]
-    out << ["Trading house", @game.trading_house.to_s]
+    out << ["Trading house", @game.trading_house.join(", ")]
     out << ["VPs", @game.vps]
-    out << ["Colonists", @colonists]
+    out << ["Colonists", @game.colonists.to_s]
 #    out << ["Available buildings", @game.buildings.map { |n, a| "%s = %d" % [n, a] }.join(", ")]
     out << ["Goods", @game.goods.map { |g, a| "%s:%d" % [g, a] }.join(", ")]
     out << ["Cargo ships", @game.cargo_ships.to_s]

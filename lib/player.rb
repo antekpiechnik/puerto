@@ -121,9 +121,6 @@ class Puerto::Player
   end
 
   def loadable_goods(goods_already_in, goods_filled)
-    puts goods_filled
-    puts goods_already_in
-    puts @goods
     if goods_already_in.include?(nil)
       return @goods.map{ |a| a[0] unless goods_filled.include?(a[0]) }.delete_if {|x| x.nil? }
     else
