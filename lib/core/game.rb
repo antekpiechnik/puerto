@@ -52,13 +52,11 @@ class Puerto::Core::Game
   end
 
   def reset_trading_house!
-    @trading_house = []
+    @trading_house.clear
   end
 
   def trade_good(type)
-    if !@trading_house.include?(type)
-      @trading_house << type
-    end
+    @trading_house << type unless @trading_house.include?(type)
   end
 
   ##
