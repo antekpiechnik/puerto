@@ -1,5 +1,6 @@
 class Puerto::Core::Game
-  attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house, :goods, :cargo_ships, :buildings
+  attr_reader :vps, :cargo_ships, :colonists, :roles, :trading_house,
+    :goods, :cargo_ships, :buildings, :colonist_ship
 
   CORN    = "Corn"
   INDIGO  = "Indigo"
@@ -25,6 +26,7 @@ class Puerto::Core::Game
     # [capacity, taken, good (nil if none)]
     @cargo_ships = (1..3).map { |e| [e + players.size, 0, nil] }.extend(CargoShipList)
     @colonists = {3 => 55, 4 => 75, 5 => 95}[players.size]
+    @colonist_ship = players.size
     @buildings = Puerto::Buildings.new(self)
     @finishing = false
     @roles = RoleList.create(players.size)
@@ -79,32 +81,23 @@ class Puerto::Core::Game
     player.add_doubloons(amount)
   end
 
-  def award_colonist(player, amount)
-    @colonists -= amount
-    player.add_colonists(amount)
-  end
-
   def distribute_colonists
-    index = 0
-    while @colonists > 0
-      award_colonist(@setup.players[index], 1)
-      if index == players.size-1
-        index = 0
-      else
-        index += 1
-      end
+    player = players.current
+    while @colonist_ship > 0
+      player.add_colonists(1)
+      @colonist_ship -= 1
+      player = player.next_player
     end
 
-    colonists_to_add = 0
-    @setup.players.each do |player|
-      colonists_to_add += player.free_buildings_space
+    colonists_to_add = players.inject(0) do |amount, player|
+      amount += player.free_buildings_space
     end
 
-    if colonists_to_add == 0
-      @finishing = true
-    else
-      @colonists += colonists_to_add
-    end
+    colonists_to_add = [colonists_to_add, players.size].max
+
+    @colonist_ship = [colonists_to_add, @colonists].min
+    @finishing = colonists_to_add > @colonists
+    @colonists -= @colonist_ship
   end
 
   def load_good(type)

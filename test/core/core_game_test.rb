@@ -50,6 +50,11 @@ class CoreGameTest < Test::Unit::TestCase
       game = instantiate_game(i)
       assert_equal(i + 3, game.roles.size)
     end
+
+    define_method("test_colonist_ship_starts_with_correct_amount_in_%dplayer_game" % [i]) do
+      game = instantiate_game(i)
+      assert_equal i, game.colonist_ship
+    end
   end
 
   def text_next_returns_true_if_phase_finished
@@ -164,32 +169,24 @@ class CoreGameTest < Test::Unit::TestCase
     assert_equal 1, @game.roles.taken_count
   end
 
-  def test_awarding_colonists_works
-    assert_equal 55, @game.colonists
-    @game.award_colonist(@players[0], 10)
-    assert_equal 45, @game.colonists
-    assert_equal 10, @players[0].colonists
-  end
-
   def test_distributing_colonists_distributes
-    assert_equal 55, @game.colonists
+    @game.instance_variable_set(:@colonist_ship, 100)
     @game.distribute_colonists
-    assert_equal 19, @players[0].colonists
-    assert_equal 18, @players[1].colonists
-    assert_equal 18, @players[2].colonists
+    assert_equal 34, @players[0].colonists
+    assert_equal 33, @players[1].colonists
+    assert_equal 33, @players[2].colonists
   end
 
-  def test_distributing_colonists_doesnt_fill_when_no_buildings
-    assert_equal 55, @game.colonists
+  def test_distributing_colonists_sets_new_colonists_as_sum_of_free_building_slots
+    @buildings.buy_building(@players[0], Puerto::Buildings::HACIENDA[0]) # 1 slot
+    @buildings.buy_building(@players[1], Puerto::Buildings::TOBACCO_STORAGE[0]) # 3 slots
+    @buildings.buy_building(@players[2], Puerto::Buildings::COFFEE_ROASTER[0]) # 2 slots
+    @buildings.buy_building(@players[0], Puerto::Buildings::SUGAR_MILL[0]) # 3 slots
+    @buildings.buy_building(@players[1], Puerto::Buildings::SUGAR_MILL[0]) # 3 slots
     @game.distribute_colonists
-    assert_equal 0, @game.colonists
-  end
-
-  def test_distributing_colonists_fills_when_buildings_present
-    assert_equal 55, @game.colonists
-    @buildings.buy_building(@players[0], Puerto::Buildings::HACIENDA[0])
-    @game.distribute_colonists
-    assert_equal 1, @game.colonists
+    # assert_equal 1 + 3 + 2 + 3 + 3, @game.colonist_ship
+    # for now, buildings may contain only 1 slot
+    assert_equal 5, @game.colonist_ship
   end
 
   def test_loading_goods_when_free_space
