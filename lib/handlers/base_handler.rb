@@ -75,6 +75,9 @@ class Puerto::Handlers::BaseHandler
     else
       raise Puerto::HandlerNotFound.new(self.class, name)
     end
+  rescue Puerto::HandlerNotFound
+    self.flash = "Not implemented yet"
+    nil
   end
 
   ##
