@@ -17,7 +17,7 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
     end
     menu << ["1", ["Show player stats", :player_stats]]
     menu << ["2", ["Show game stats", :game_stats]]
-    menu << ["0", ["End game", :previous]]
+    menu << ["0", ["End game", :endgame]]
     menu
   end
 
@@ -29,6 +29,11 @@ class Puerto::Handlers::Game < Puerto::Handlers::BaseHandler
 
   def set_role(role)
     self.assign_handler(Puerto::Handlers::Round.new(@game, role))
+  end
+
+  def endgame
+    @game.reset
+    previous
   end
 
   ##

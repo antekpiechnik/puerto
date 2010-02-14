@@ -4,3 +4,4 @@ doc/
 *.swp
 coverage/
 coverage.data
+.DS_Store

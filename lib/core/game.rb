@@ -32,6 +32,13 @@ class Puerto::Core::Game
     @roles = RoleList.create(players.size)
   end
 
+  def reset
+    initialize(@setup)
+    names = players.map {|a| a.name}
+    @setup.players = Puerto::Player.create(names)
+  end
+
+
   def players
     @setup.players
   end

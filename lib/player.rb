@@ -28,6 +28,17 @@ class Puerto::Player
     new_name != "" and !names.include?(new_name)
   end
 
+  def reset
+    @buildings = []
+    @plantations = []
+    @vps = 0
+    @doubloons = 0
+    @quarry_count = 2
+    @goods = []
+    @colonists = 0
+    @current = @governor = false
+  end
+
   ##
   #
   # A method for validating the number of players
@@ -72,23 +83,24 @@ class Puerto::Player
   end
 
   private
-  def governor!
-    @governor = true
-  end
 
   def cancel_governor!
     @governor = false
+  end
+  def cancel_current!
+    @current = false
+  end
+
+  public
+
+  def governor!
+    @governor = true
   end
 
   def current!
     @current = true
   end
 
-  def cancel_current!
-    @current = false
-  end
-
-  public
   def add_doubloons(amount)
     @doubloons += amount unless amount <= 0
   end
